@@ -1,0 +1,6 @@
+# Server
+/Server/**/__pycache__/
+/Server/env/
+
+# Client
+/Client/**/*.meta
