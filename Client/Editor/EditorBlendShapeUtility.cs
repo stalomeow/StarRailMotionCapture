@@ -25,12 +25,12 @@ namespace HSR.MotionCapture.Editor
                 "m_LocalRotation.z",
                 "m_LocalRotation.w"
             };
-            public static readonly string[] LocalEulerAnglesHint =
-            {
-                "m_LocalEulerAnglesHint.x",
-                "m_LocalEulerAnglesHint.y",
-                "m_LocalEulerAnglesHint.z"
-            };
+            // public static readonly string[] LocalEulerAnglesHint =
+            // {
+            //     "m_LocalEulerAnglesHint.x",
+            //     "m_LocalEulerAnglesHint.y",
+            //     "m_LocalEulerAnglesHint.z"
+            // };
             public static readonly string[] LocalScale =
             {
                 "m_LocalScale.x",
@@ -51,7 +51,8 @@ namespace HSR.MotionCapture.Editor
             string propertyPath = prevValue.propertyPath;
             return PropPaths.LocalPosition.Contains(propertyPath)
                    || PropPaths.LocalRotation.Contains(propertyPath)
-                   || PropPaths.LocalEulerAnglesHint.Contains(propertyPath)
+                   // 不可以处理 LocalEulerAnglesHint。不然在 SceneView 里 Rotate 就不会被加到 Undo History 里！
+                   // || PropPaths.LocalEulerAnglesHint.Contains(propertyPath)
                    || PropPaths.LocalScale.Contains(propertyPath);
         }
 
