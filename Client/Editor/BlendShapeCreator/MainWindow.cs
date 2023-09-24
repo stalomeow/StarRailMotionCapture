@@ -334,7 +334,7 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
                             BoneModificationListWrapper wrapper = new();
                             EditorJsonUtility.FromJsonOverwrite(json, wrapper);
 
-                            Undo.RegisterCompleteObjectUndo(m_Asset, "Paste Bone Modification List");
+                            Undo.RecordObject(m_Asset, "Paste Bone Modification List");
                             blendShape.BoneModifications.Clear();
                             blendShape.BoneModifications.AddRange(wrapper.BoneModifications);
                             MarkAssetDirty();
@@ -347,8 +347,69 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
 
                     if (GUILayout.Button("Clear", GUILayout.MaxWidth(60), GUILayout.Height(18)))
                     {
-                        Undo.RegisterCompleteObjectUndo(m_Asset, "Clear Bone Modification List");
+                        Undo.RecordObject(m_Asset, "Clear Bone Modification List");
                         blendShape.BoneModifications.Clear();
+                        MarkAssetDirty();
+                    }
+
+                    if (GUILayout.Button("Mirror", GUILayout.MaxWidth(60), GUILayout.Height(18)))
+                    {
+                        Transform rootBone = m_Renderer.rootBone;
+                        Quaternion rootRotInv = Quaternion.Inverse(rootBone.root.localRotation);
+
+                        Undo.RecordObject(m_Asset, "Mirror Bone Modification List");
+
+                        foreach (BoneModification boneModification in SelectedBlendShape.BoneModifications)
+                        {
+                            string prevBonePath = boneModification.BonePath;
+                            if (prevBonePath == null)
+                            {
+                                continue;
+                            }
+
+                            // Bone
+                            string[] paths = prevBonePath.Split('/');
+                            for (int i = 0; i < paths.Length; i++)
+                            {
+                                // 左变右，右变左
+                                if (paths[i].EndsWith("_L"))
+                                {
+                                    paths[i] = paths[i][..^1] + "R";
+                                }
+                                else if (paths[i].EndsWith("_R"))
+                                {
+                                    paths[i] = paths[i][..^1] + "L";
+                                }
+                            }
+                            boneModification.BonePath = string.Join('/', paths);
+
+                            Transform prevBone = BlendShapeUtility.FindBone(rootBone, prevBonePath);
+                            Transform currBone = BlendShapeUtility.FindBone(rootBone, boneModification.BonePath);
+
+                            Quaternion prevRot = rootRotInv * prevBone.parent.rotation;
+                            // Quaternion prevRotInv = Quaternion.Inverse(prevRot);
+                            Quaternion currRot = rootRotInv * currBone.parent.rotation;
+                            Quaternion currRotInv = Quaternion.Inverse(currRot);
+
+                            // 镜像的时候，先从旧的骨骼父空间变换到模型的本地空间，再镜像 X 轴，然后变换回新的骨骼父空间
+
+                            // Translation
+                            Vector3 translationMS = prevRot * boneModification.Translation;
+                            translationMS.x *= -1;
+                            boneModification.Translation = currRotInv * translationMS;
+
+                            // Rotation
+                            Quaternion.Euler(boneModification.Rotation).ToAngleAxis(out float angle, out Vector3 axis);
+                            axis = currRotInv * Vector3.Scale(prevRot * axis, new Vector3(-1, 1, 1));
+                            angle *= -1;
+                            boneModification.Rotation = Quaternion.AngleAxis(angle, axis).eulerAngles;
+
+                            // Scale
+                            Vector3 scaleMS = prevRot * boneModification.Scale;
+                            scaleMS.x *= -1;
+                            boneModification.Scale = currRotInv * scaleMS;
+                        }
+
                         MarkAssetDirty();
                     }
                 }
