@@ -174,7 +174,7 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
             ProcessPropertyModification(modifications,
                 out UndoPropertyModification[] processedModifications, out _);
 
-            // ? 是否需要先 Apply 再 Process
+            // ? TODO: 是否需要先 Apply 再 Process
             EditorBlendShapeUtility.ApplyBonePropertyModifications(processedModifications);
         }
 

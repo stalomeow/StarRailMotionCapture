@@ -374,8 +374,8 @@ MonoBehaviour:
   - Name: eyeLookUpLeft
     BoneModifications:
     - BonePath: joint_skin_GRP/joint_face/eye_All_L/eye_L
-      Translation: {x: 0, y: 0.0093, z: 0}
-      Rotation: {x: 0, y: 0, z: 0}
+      Translation: {x: 0, y: 0, z: 0}
+      Rotation: {x: 346.51645, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
         serializedVersion: 2
@@ -405,8 +405,8 @@ MonoBehaviour:
   - Name: eyeLookUpRight
     BoneModifications:
     - BonePath: joint_skin_GRP/joint_face/eye_All_R/eye_R
-      Translation: {x: 0, y: 0.0093, z: 0}
-      Rotation: {x: 0, y: 0, z: 0}
+      Translation: {x: 0, y: 0, z: 0}
+      Rotation: {x: -346.5164, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
         serializedVersion: 2
@@ -436,8 +436,8 @@ MonoBehaviour:
   - Name: eyeLookDownLeft
     BoneModifications:
     - BonePath: joint_skin_GRP/joint_face/eye_All_L/eye_L
-      Translation: {x: 0, y: -0.0093, z: 0}
-      Rotation: {x: 0, y: 0, z: 0}
+      Translation: {x: 0, y: 0, z: 0}
+      Rotation: {x: -346.5164, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
         serializedVersion: 2
@@ -467,8 +467,8 @@ MonoBehaviour:
   - Name: eyeLookDownRight
     BoneModifications:
     - BonePath: joint_skin_GRP/joint_face/eye_All_R/eye_R
-      Translation: {x: 0, y: -0.0093, z: 0}
-      Rotation: {x: 0, y: 0, z: 0}
+      Translation: {x: 0, y: 0, z: 0}
+      Rotation: {x: 346.5164, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
         serializedVersion: 2
@@ -498,8 +498,8 @@ MonoBehaviour:
   - Name: eyeLookInLeft
     BoneModifications:
     - BonePath: joint_skin_GRP/joint_face/eye_All_L/eye_L
-      Translation: {x: 0.0083, y: 0, z: 0}
-      Rotation: {x: 0, y: 0, z: 0}
+      Translation: {x: 0, y: 0, z: 0}
+      Rotation: {x: 0.00001289549, y: -345.3454, z: -0.000006823017}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
         serializedVersion: 2
@@ -529,8 +529,8 @@ MonoBehaviour:
   - Name: eyeLookInRight
     BoneModifications:
     - BonePath: joint_skin_GRP/joint_face/eye_All_R/eye_R
-      Translation: {x: 0.0083, y: 0, z: 0}
-      Rotation: {x: 0, y: 0, z: 0}
+      Translation: {x: 0, y: 0, z: 0}
+      Rotation: {x: 0.00001289549, y: 345.3454, z: -0.000006823017}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
         serializedVersion: 2
@@ -560,8 +560,8 @@ MonoBehaviour:
   - Name: eyeLookOutLeft
     BoneModifications:
     - BonePath: joint_skin_GRP/joint_face/eye_All_L/eye_L
-      Translation: {x: -0.0083, y: 0, z: 0}
-      Rotation: {x: 0, y: 0, z: 0}
+      Translation: {x: 0, y: 0, z: 0}
+      Rotation: {x: 0.000012895493, y: 345.34537, z: -0.000006823017}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
         serializedVersion: 2
@@ -591,8 +591,8 @@ MonoBehaviour:
   - Name: eyeLookOutRight
     BoneModifications:
     - BonePath: joint_skin_GRP/joint_face/eye_All_R/eye_R
-      Translation: {x: -0.0083, y: 0, z: 0}
-      Rotation: {x: 0, y: 0, z: 0}
+      Translation: {x: 0, y: 0, z: 0}
+      Rotation: {x: 0.00001289549, y: -345.3454, z: -0.000006823017}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
         serializedVersion: 2

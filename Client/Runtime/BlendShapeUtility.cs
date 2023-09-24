@@ -69,12 +69,20 @@ namespace HSR.MotionCapture
 
                 bone.GetLocalPositionAndRotation(out Vector3 localPosition, out Quaternion localRotation);
                 localPosition += Vector3.Lerp(Vector3.zero, modification.Translation, weight);
-                localRotation = Quaternion.Slerp(Quaternion.identity, Quaternion.Euler(modification.Rotation), weight) * localRotation;
+                localRotation = Slerp(Quaternion.identity, Quaternion.Euler(modification.Rotation), weight) * localRotation;
                 bone.SetLocalPositionAndRotation(localPosition, localRotation);
 
                 bone.localScale += Vector3.Lerp(Vector3.zero, modification.Scale, weight);
             }
             onDidApplyCallback?.Invoke(bone);
+
+            // Quaternion.Slerp 当 t == 1 时返回的值不等于 b，不是很准
+            static Quaternion Slerp(Quaternion a, Quaternion b, float t) => t switch
+            {
+                >= 1.0f => b,
+                <= 0.0f => a,
+                _ => Quaternion.SlerpUnclamped(a, b, t)
+            };
         }
 
         public static void ApplyBlendShape(

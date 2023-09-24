@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -443,10 +444,10 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
             }
         }
 
-        private static void ScrollView(ref Vector2 scrollPos, Action guiAction)
+        private static void ScrollView(ref Vector2 scrollPos, [NotNull] Action guiAction)
         {
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
-            guiAction?.Invoke();
+            guiAction();
             EditorGUILayout.EndScrollView();
         }
 
