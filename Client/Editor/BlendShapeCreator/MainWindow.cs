@@ -299,6 +299,39 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
                 }
             }
 
+            // Description Field
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                bool foldout = blendShape.Editor_DescriptionFoldout;
+
+                if (foldout)
+                {
+                    EditorGUILayout.LabelField("Description");
+                }
+                else
+                {
+                    string[] descLines = blendShape.Description?.Split('\n', '\r');
+                    string descPreview = descLines is { Length: > 0 } ? descLines[0] : string.Empty;
+                    GUIContent label = EditorGUIUtility.TrTextContent("Description");
+                    GUIContent content = EditorGUIUtility.TrTextContent(descPreview + "...", blendShape.Description);
+                    EditorGUILayout.LabelField(label, content);
+                }
+
+                if (GUILayout.Button(foldout ? "Complete" : "Edit", GUILayout.MaxWidth(80), GUILayout.Height(18)))
+                {
+                    blendShape.Editor_DescriptionFoldout = !foldout;
+                }
+            }
+
+            if (blendShape.Editor_DescriptionFoldout)
+            {
+                ScrollView(ref m_ScrollPosRight, () =>
+                {
+                    blendShape.Description = EditorGUILayout.TextArea(blendShape.Description);
+                });
+                return;
+            }
+
             GUILayout.Space(10);
 
             // BoneModifications List
@@ -312,7 +345,7 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
 
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    EditorGUILayout.LabelField($"Bones ({blendShape.BoneModifications.Count})", EditorStyles.boldLabel);
+                    EditorGUILayout.LabelField($"Controlled Bones ({blendShape.BoneModifications.Count})", EditorStyles.boldLabel);
                     GUILayout.FlexibleSpace();
 
                     const string jsonPrefix = "BoneModifications:";

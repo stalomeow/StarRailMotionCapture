@@ -26,7 +26,13 @@ namespace HSR.MotionCapture
         public class BlendShapeData
         {
             public string Name;
+            public string Description;
             public List<BoneModification> BoneModifications = new();
+
+            // Editor-Only States
+#if UNITY_EDITOR
+            public bool Editor_DescriptionFoldout = false;
+#endif
         }
 
         public List<BlendShapeData> BlendShapes = new() { new BlendShapeData { Name = "Example" } };
