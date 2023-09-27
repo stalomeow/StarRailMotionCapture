@@ -10,7 +10,7 @@ namespace HSR.MotionCapture
         [Serializable]
         public class BoneModification
         {
-            public string BonePath = null;
+            public string BonePath = "";
             public Vector3 Translation = Vector3.zero;
             public Vector3 Rotation = Vector3.zero;
             public Vector3 Scale = Vector3.zero;

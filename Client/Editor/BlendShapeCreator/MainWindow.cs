@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditorInternal;
@@ -39,13 +40,47 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
         [NonSerialized] private ReorderableList m_BlendShapeNameGUIList;
         [NonSerialized] private Dictionary<BlendShapeData, ReorderableList> m_BoneModificationGUILists;
 
-        private int SelectedBlendShapeIndex
+        private int? SelectedBlendShapeIndex
         {
-            get => m_BlendShapeNameGUIList.index;
-            set => m_BlendShapeNameGUIList.index = value;
+            get
+            {
+                var selection = m_BlendShapeNameGUIList.selectedIndices;
+                return selection.Count > 0 ? selection[0] : null;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    m_BlendShapeNameGUIList.ClearSelection();
+                    return;
+                }
+
+                m_BlendShapeNameGUIList.Select(value.Value, append: false);
+            }
         }
 
-        private BlendShapeData SelectedBlendShape => m_Asset.BlendShapes[SelectedBlendShapeIndex];
+        private BlendShapeData SelectedBlendShape
+        {
+            get
+            {
+                int? index = SelectedBlendShapeIndex;
+
+                if (index == null)
+                {
+                    return null;
+                }
+
+                List<BlendShapeData> blendShapes = m_Asset.BlendShapes;
+
+                if (index.Value < 0 || index.Value >= blendShapes.Count)
+                {
+                    SelectedBlendShapeIndex = null;
+                    return null;
+                }
+
+                return blendShapes[index.Value];
+            }
+        }
 
         private void InitIfNot()
         {
@@ -64,8 +99,15 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
             m_BoneModificationGUILists ??= new Dictionary<BlendShapeData, ReorderableList>();
         }
 
+        private void OnEnable()
+        {
+            Undo.undoRedoEvent += OnUndoRedoEvent;
+        }
+
         private void OnDisable()
         {
+            Undo.undoRedoEvent -= OnUndoRedoEvent;
+
             if (m_Recorder != null)
             {
                 m_Recorder.Dispose();
@@ -76,6 +118,11 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
             {
                 m_SerializeOnly_SelectedBlendShapeIndex = m_BlendShapeNameGUIList.index;
             }
+        }
+
+        private void OnUndoRedoEvent(in UndoRedoInfo undo)
+        {
+            Repaint();
         }
 
         private void OnGUI()
@@ -89,6 +136,8 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
                 EditorGUILayout.HelpBox("Please assign the 'Debug Skinned Mesh Renderer' field.", MessageType.Error);
                 return;
             }
+
+            Undo.RecordObject(m_Asset, $"Modify {m_Asset.name} (Asset)");
 
             using (new EditorGUI.DisabledScope(m_Recorder.IsRecording || m_Recorder.IsPreviewing))
             {
@@ -270,7 +319,11 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
         private void BlendShapeDataGUI()
         {
             BlendShapeData blendShape = SelectedBlendShape;
-            int blendShapeIndex = SelectedBlendShapeIndex;
+
+            if (blendShape == null)
+            {
+                return;
+            }
 
             EditorGUILayout.Space();
             EditorGUI.BeginChangeCheck();
@@ -282,15 +335,15 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
             // Name Field
             using (new EditorGUILayout.HorizontalScope())
             {
-                blendShape.Name = EditorGUILayout.DelayedTextField("Name", blendShape.Name);
+                blendShape.Name = EditorGUILayout.TextField("Name", blendShape.Name); // Delayed 会出问题
                 List<BlendShapeData> blendShapeList = m_Asset.BlendShapes;
 
                 using (new EditorGUI.DisabledScope(blendShapeList.Count <= 1))
                 {
                     if (GUILayout.Button("Delete", GUILayout.MaxWidth(80), GUILayout.Height(18)))
                     {
-                        blendShapeList.RemoveAt(blendShapeIndex);
-                        SelectedBlendShapeIndex = Mathf.Clamp(blendShapeIndex, 0, blendShapeList.Count - 1);
+                        blendShapeList.Remove(blendShape);
+                        SelectedBlendShapeIndex = blendShapeList.Count - 1;
                         MarkAssetDirty();
 
                         m_BoneModificationGUILists.Remove(blendShape);
@@ -335,124 +388,32 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
             GUILayout.Space(10);
 
             // BoneModifications List
-            if (m_Renderer != null)
+            if (!m_BoneModificationGUILists.TryGetValue(blendShape, out ReorderableList boneModificationGUIList))
             {
-                if (!m_BoneModificationGUILists.TryGetValue(blendShape, out ReorderableList boneModificationGUIList))
-                {
-                    boneModificationGUIList = CreateBoneModificationGUIList(blendShape.BoneModifications);
-                    m_BoneModificationGUILists.Add(blendShape, boneModificationGUIList);
-                }
-
-                using (new EditorGUILayout.HorizontalScope())
-                {
-                    EditorGUILayout.LabelField($"Controlled Bones ({blendShape.BoneModifications.Count})", EditorStyles.boldLabel);
-                    GUILayout.FlexibleSpace();
-
-                    const string jsonPrefix = "BoneModifications:";
-
-                    if (GUILayout.Button("Copy", GUILayout.MaxWidth(60), GUILayout.Height(18)))
-                    {
-                        BoneModificationListWrapper wrapper = new() { BoneModifications = blendShape.BoneModifications };
-                        string json = EditorJsonUtility.ToJson(wrapper, false);
-                        EditorGUIUtility.systemCopyBuffer = jsonPrefix + json;
-                    }
-
-                    if (GUILayout.Button("Paste", GUILayout.MaxWidth(60), GUILayout.Height(18)))
-                    {
-                        string json = EditorGUIUtility.systemCopyBuffer;
-
-                        if (json.StartsWith(jsonPrefix))
-                        {
-                            json = json[jsonPrefix.Length..];
-                            BoneModificationListWrapper wrapper = new();
-                            EditorJsonUtility.FromJsonOverwrite(json, wrapper);
-
-                            Undo.RecordObject(m_Asset, "Paste Bone Modification List");
-                            blendShape.BoneModifications.Clear();
-                            blendShape.BoneModifications.AddRange(wrapper.BoneModifications);
-                            MarkAssetDirty();
-                        }
-                        else
-                        {
-                            Debug.LogError("Failed to paste.");
-                        }
-                    }
-
-                    if (GUILayout.Button("Clear", GUILayout.MaxWidth(60), GUILayout.Height(18)))
-                    {
-                        Undo.RecordObject(m_Asset, "Clear Bone Modification List");
-                        blendShape.BoneModifications.Clear();
-                        MarkAssetDirty();
-                    }
-
-                    if (GUILayout.Button("Mirror", GUILayout.MaxWidth(60), GUILayout.Height(18)))
-                    {
-                        Transform rootBone = m_Renderer.rootBone;
-                        Quaternion rootRotInv = Quaternion.Inverse(rootBone.root.localRotation);
-
-                        Undo.RecordObject(m_Asset, "Mirror Bone Modification List");
-
-                        foreach (BoneModification boneModification in SelectedBlendShape.BoneModifications)
-                        {
-                            string prevBonePath = boneModification.BonePath;
-                            if (prevBonePath == null)
-                            {
-                                continue;
-                            }
-
-                            // Bone
-                            string[] paths = prevBonePath.Split('/');
-                            for (int i = 0; i < paths.Length; i++)
-                            {
-                                // 左变右，右变左
-                                if (paths[i].EndsWith("_L"))
-                                {
-                                    paths[i] = paths[i][..^1] + "R";
-                                }
-                                else if (paths[i].EndsWith("_R"))
-                                {
-                                    paths[i] = paths[i][..^1] + "L";
-                                }
-                            }
-                            boneModification.BonePath = string.Join('/', paths);
-
-                            Transform prevBone = BlendShapeUtility.FindBone(rootBone, prevBonePath);
-                            Transform currBone = BlendShapeUtility.FindBone(rootBone, boneModification.BonePath);
-
-                            Quaternion prevRot = rootRotInv * prevBone.parent.rotation;
-                            // Quaternion prevRotInv = Quaternion.Inverse(prevRot);
-                            Quaternion currRot = rootRotInv * currBone.parent.rotation;
-                            Quaternion currRotInv = Quaternion.Inverse(currRot);
-
-                            // 镜像的时候，先从旧的骨骼父空间变换到模型的本地空间，再镜像 X 轴，然后变换回新的骨骼父空间
-
-                            // Translation
-                            Vector3 translationMS = prevRot * boneModification.Translation;
-                            translationMS.x *= -1;
-                            boneModification.Translation = currRotInv * translationMS;
-
-                            // Rotation
-                            Quaternion.Euler(boneModification.Rotation).ToAngleAxis(out float angle, out Vector3 axis);
-                            axis = currRotInv * Vector3.Scale(prevRot * axis, new Vector3(-1, 1, 1));
-                            angle *= -1;
-                            boneModification.Rotation = Quaternion.AngleAxis(angle, axis).eulerAngles;
-
-                            // Scale
-                            Vector3 scaleMS = prevRot * boneModification.Scale;
-                            scaleMS.x *= -1;
-                            boneModification.Scale = currRotInv * scaleMS;
-                        }
-
-                        MarkAssetDirty();
-                    }
-                }
-
-                ScrollView(ref m_ScrollPosRight, () =>
-                {
-                    boneModificationGUIList.DoLayoutList();
-                    GUILayout.Space(10);
-                });
+                boneModificationGUIList = CreateBoneModificationGUIList(blendShape.BoneModifications);
+                m_BoneModificationGUILists.Add(blendShape, boneModificationGUIList);
             }
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField($"Controlled Bones ({blendShape.BoneModifications.Count})", EditorStyles.boldLabel);
+
+                GUILayout.FlexibleSpace();
+
+                // Tools
+                Rect toolsRect = EditorGUILayout.GetControlRect(false, 18, GUILayout.MaxWidth(80));
+                GUIContent toolsLabel = EditorGUIUtility.TrTextContent("Tools");
+                if (EditorGUI.DropdownButton(toolsRect, toolsLabel, FocusType.Keyboard, Styles.Dropdown.Value))
+                {
+                    ShowToolsMenu(toolsRect, blendShape, boneModificationGUIList);
+                }
+            }
+
+            ScrollView(ref m_ScrollPosRight, () =>
+            {
+                boneModificationGUIList.DoLayoutList();
+                GUILayout.Space(10);
+            });
 
             // ----------------------------------------------------------------------------------------
             // End GUI
@@ -464,59 +425,244 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
             }
         }
 
-        private ReorderableList CreateBoneModificationGUIList(List<BlendShapeAsset.BoneModification> list)
+        private void ShowToolsMenu(Rect toolsRect, BlendShapeData blendShape, ReorderableList boneModificationGUIList)
         {
-            return new ReorderableList(list, typeof(BlendShapeAsset.BoneModification), true, false, true, true)
+            const string copyJsonPrefix = "BoneModifications:";
+            List<BoneModification> selectedBoneModifications = boneModificationGUIList.selectedIndices.Select(
+                i => blendShape.BoneModifications[i]).ToList();
+
+            GenericMenu menu = new();
+
+            menu.AddItem(new GUIContent("Copy All"), false, () =>
             {
+                var wrapper = new BoneModificationListWrapper { BoneModifications = blendShape.BoneModifications };
+                string json = EditorJsonUtility.ToJson(wrapper, false);
+                EditorGUIUtility.systemCopyBuffer = copyJsonPrefix + json;
+            });
+
+            if (selectedBoneModifications.Count > 0)
+            {
+                menu.AddItem(new GUIContent("Copy Selected"), false, () =>
+                {
+                    var wrapper = new BoneModificationListWrapper { BoneModifications = selectedBoneModifications };
+                    string json = EditorJsonUtility.ToJson(wrapper, false);
+                    EditorGUIUtility.systemCopyBuffer = copyJsonPrefix + json;
+                });
+            }
+            else
+            {
+                menu.AddDisabledItem(new GUIContent("Copy Selected"));
+            }
+
+            if (EditorGUIUtility.systemCopyBuffer.StartsWith(copyJsonPrefix))
+            {
+                // 提前处理好，然后在 lambda 里捕获。避免之后 systemCopyBuffer 变掉。
+                string json = EditorGUIUtility.systemCopyBuffer[copyJsonPrefix.Length..];
+
+                menu.AddItem(new GUIContent("Paste and Overwrite"), false, () =>
+                {
+                    var wrapper = new BoneModificationListWrapper();
+                    EditorJsonUtility.FromJsonOverwrite(json, wrapper);
+
+                    Undo.RecordObject(m_Asset, "Paste Bone Modification List (Overwrite)");
+                    blendShape.BoneModifications.Clear();
+                    blendShape.BoneModifications.AddRange(wrapper.BoneModifications);
+                    MarkAssetDirty();
+                });
+
+                menu.AddItem(new GUIContent("Paste and Append"), false, () =>
+                {
+                    var wrapper = new BoneModificationListWrapper();
+                    EditorJsonUtility.FromJsonOverwrite(json, wrapper);
+
+                    Undo.RecordObject(m_Asset, "Paste Bone Modification List (Append)");
+                    blendShape.BoneModifications.AddRange(wrapper.BoneModifications);
+                    MarkAssetDirty();
+                });
+            }
+            else
+            {
+                menu.AddDisabledItem(new GUIContent("Paste and Overwrite"));
+                menu.AddDisabledItem(new GUIContent("Paste and Append"));
+            }
+
+            menu.AddSeparator("");
+
+            menu.AddItem(new GUIContent("Mirror All"), false, () =>
+            {
+                Undo.RecordObject(m_Asset, "Mirror Bone Modification List (All)");
+
+                foreach (BoneModification boneModification in blendShape.BoneModifications)
+                {
+                    EditorBlendShapeUtility.MirrorBoneModification(boneModification, m_Renderer.rootBone);
+                }
+
+                MarkAssetDirty();
+            });
+
+            if (selectedBoneModifications.Count > 0)
+            {
+                menu.AddItem(new GUIContent("Mirror Selected"), false, () =>
+                {
+                    Undo.RecordObject(m_Asset, "Mirror Bone Modification List (Selected)");
+
+                    foreach (BoneModification boneModification in selectedBoneModifications)
+                    {
+                        EditorBlendShapeUtility.MirrorBoneModification(boneModification, m_Renderer.rootBone);
+                    }
+
+                    MarkAssetDirty();
+                });
+            }
+            else
+            {
+                menu.AddDisabledItem(new GUIContent("Mirror Selected"));
+            }
+
+            menu.AddSeparator("");
+
+            menu.AddItem(new GUIContent("Clear All"), false, () =>
+            {
+                Undo.RecordObject(m_Asset, "Clear Bone Modification List");
+                blendShape.BoneModifications.Clear();
+                MarkAssetDirty();
+            });
+
+            menu.AddSeparator("");
+
+            menu.AddItem(new GUIContent("Sort Ascending"), false, () =>
+            {
+                Undo.RecordObject(m_Asset, "Sort Bone Modification List (Ascending)");
+                blendShape.BoneModifications.Sort(EditorBlendShapeUtility.CompareBoneModifications);
+                MarkAssetDirty();
+            });
+
+            menu.AddItem(new GUIContent("Sort Descending"), false, () =>
+            {
+                Undo.RecordObject(m_Asset, "Sort Bone Modification List (Descending)");
+                blendShape.BoneModifications.Sort(EditorBlendShapeUtility.CompareBoneModificationsReverse);
+                MarkAssetDirty();
+            });
+
+            menu.AddSeparator("");
+
+            menu.AddItem(new GUIContent("Collapse All"), false, () =>
+            {
+                Undo.RecordObject(m_Asset, "Collapse Bone Modification List");
+                foreach (BoneModification modification in blendShape.BoneModifications)
+                {
+                    modification.Editor_Foldout = false;
+                }
+                MarkAssetDirty();
+                Repaint();
+            });
+
+            menu.AddItem(new GUIContent("Expand All"), false, () =>
+            {
+                Undo.RecordObject(m_Asset, "Expand Bone Modification List");
+                foreach (BoneModification modification in blendShape.BoneModifications)
+                {
+                    modification.Editor_Foldout = true;
+                }
+                MarkAssetDirty();
+                Repaint();
+            });
+
+            menu.AddSeparator("");
+
+            menu.AddItem(new GUIContent("Select All Bones in Hierarchy"), false, () =>
+            {
+                Transform rootBone = m_Renderer.rootBone;
+                Selection.objects = (
+                    from modification in blendShape.BoneModifications
+                    let bone = BlendShapeUtility.FindBone(rootBone, modification.BonePath)
+                    where bone != null
+                    select (Object)bone.gameObject
+                ).ToArray();
+            });
+
+            if (selectedBoneModifications.Count > 0)
+            {
+                menu.AddItem(new GUIContent("Select Selected-Bones in Hierarchy"), false, () =>
+                {
+                    Transform rootBone = m_Renderer.rootBone;
+                    Selection.objects = (
+                        from modification in selectedBoneModifications
+                        let bone = BlendShapeUtility.FindBone(rootBone, modification.BonePath)
+                        where bone != null
+                        select (Object)bone.gameObject
+                    ).ToArray();
+                });
+            }
+            else
+            {
+                menu.AddDisabledItem(new GUIContent("Select Selected-Bones in Hierarchy"));
+            }
+
+            menu.DropDown(toolsRect);
+        }
+
+        private ReorderableList CreateBoneModificationGUIList(List<BoneModification> list)
+        {
+            return new ReorderableList(list, typeof(BoneModification), true, false, true, true)
+            {
+                multiSelect = true,
                 elementHeightCallback = (int index) =>
                 {
-                    int lineCount = list[index].Editor_Foldout ? 6 : 2;
-                    return lineCount * EditorGUIUtility.singleLineHeight
-                           + (lineCount - 1) * EditorGUIUtility.standardVerticalSpacing;
+                    int lineCount = list[index].Editor_Foldout ? 5 : 1;
+                    return lineCount * (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing);
                 },
                 drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
                 {
                     BoneModification mod = list[index];
 
-                    Rect line1 = new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight);
+                    Rect line1 = new Rect(rect.x, rect.y + EditorGUIUtility.standardVerticalSpacing, rect.width, EditorGUIUtility.singleLineHeight);
                     Rect line2 = new Rect(line1) { y = line1.yMax + EditorGUIUtility.standardVerticalSpacing };
                     Rect line3 = new Rect(line2) { y = line2.yMax + EditorGUIUtility.standardVerticalSpacing };
                     Rect line4 = new Rect(line3) { y = line3.yMax + EditorGUIUtility.standardVerticalSpacing };
                     Rect line5 = new Rect(line4) { y = line4.yMax + EditorGUIUtility.standardVerticalSpacing };
-                    Rect line6 = new Rect(line5) { y = line5.yMax + EditorGUIUtility.standardVerticalSpacing };
 
-                    mod.BonePath = BonePathFieldGUI(line1, "Bone", mod.BonePath);
-                    bool foldout = EditorGUI.Foldout(line2, list[index].Editor_Foldout, "Modifications", true);
-                    list[index].Editor_Foldout = foldout;
+                    mod.BonePath = BonePathFieldGUI(line1, "Bone", mod.BonePath, ref mod.Editor_Foldout);
 
-                    if (foldout)
+                    if (mod.Editor_Foldout)
                     {
                         bool wideMode = EditorGUIUtility.wideMode;
                         EditorGUIUtility.wideMode = true;
+                        EditorGUI.indentLevel++;
 
-                        using (new EditorGUI.IndentLevelScope())
-                        {
-                            mod.Translation = EditorGUI.Vector3Field(line3, "Translation", mod.Translation);
-                            mod.Rotation = EditorGUI.Vector3Field(line4, "Rotation", mod.Rotation);
-                            mod.Scale = EditorGUI.Vector3Field(line5, "Scale", mod.Scale);
-                            mod.Curve = EditorGUI.CurveField(line6, "Curve", mod.Curve);
-                        }
+                        mod.Translation = EditorGUI.Vector3Field(line2, "Translation", mod.Translation);
+                        mod.Rotation = EditorGUI.Vector3Field(line3, "Rotation", mod.Rotation);
+                        mod.Scale = EditorGUI.Vector3Field(line4, "Scale", mod.Scale);
+                        mod.Curve = EditorGUI.CurveField(line5, "Curve", mod.Curve);
 
+                        EditorGUI.indentLevel--;
                         EditorGUIUtility.wideMode = wideMode;
                     }
                 }
             };
         }
 
-        private string BonePathFieldGUI(Rect rect, string label, string bonePath)
+        private string BonePathFieldGUI(Rect rect, string label, string bonePath, ref bool foldout)
         {
-            EditorGUI.BeginChangeCheck();
+            float whitespaceWidth = EditorGUIUtility.labelWidth * 0.4f; // 留一部分空白，用来选择列表元素
+            Rect foldoutRect = new(rect) { width = EditorGUIUtility.labelWidth - whitespaceWidth };
+            Rect fieldRect = new(rect) { xMin = foldoutRect.xMax + whitespaceWidth };
             Transform bone = BlendShapeUtility.FindBone(m_Renderer.rootBone, bonePath);
-            Transform newBone = (Transform)EditorGUI.ObjectField(rect, label, bone, typeof(Transform), true);
 
+            // Foldout
+            if (bonePath is { Length: > 0 } && bone == null)
+            {
+                label += " <color=red>(Missing!)</color>";
+            }
+            GUIContent labelContent = EditorGUIUtility.TrTextContent(label, $"Path: {bonePath}");
+            foldout = EditorGUI.Foldout(foldoutRect, foldout, labelContent, true, Styles.RichFoldout.Value);
+
+            // Object Field
+            EditorGUI.BeginChangeCheck();
+            Transform newBone = (Transform)EditorGUI.ObjectField(fieldRect, bone, typeof(Transform), true);
             if (EditorGUI.EndChangeCheck())
             {
-                return BlendShapeUtility.GetBonePath(m_Renderer.rootBone, newBone);
+                bonePath = BlendShapeUtility.GetBonePath(m_Renderer.rootBone, newBone);
             }
 
             return bonePath;
@@ -549,6 +695,15 @@ namespace HSR.MotionCapture.Editor.BlendShapeCreator
         private class BoneModificationListWrapper
         {
             public List<BoneModification> BoneModifications;
+        }
+
+        private static class Styles
+        {
+            public static readonly Lazy<GUIStyle> RichFoldout = new(
+                () => new GUIStyle(EditorStyles.foldout) { richText = true });
+
+            public static readonly Lazy<GUIStyle> Dropdown = new(
+                () => new GUIStyle(EditorStyles.popup) { alignment = TextAnchor.MiddleCenter });
         }
     }
 }

@@ -173,5 +173,72 @@ namespace HSR.MotionCapture.Editor
 
             return modifications;
         }
+
+        public static void MirrorBoneModification(BoneModification modification, Transform rootBone)
+        {
+            string prevBonePath = modification.BonePath;
+
+            if (prevBonePath == null)
+            {
+                return;
+            }
+
+            // Bone
+            string[] paths = prevBonePath.Split('/');
+            for (int i = 0; i < paths.Length; i++)
+            {
+                // 左变右，右变左
+                if (paths[i].EndsWith("_L"))
+                {
+                    paths[i] = paths[i][..^1] + "R";
+                }
+                else if (paths[i].EndsWith("_R"))
+                {
+                    paths[i] = paths[i][..^1] + "L";
+                }
+            }
+            modification.BonePath = string.Join('/', paths);
+
+            Transform prevBone = BlendShapeUtility.FindBone(rootBone, prevBonePath);
+            Transform currBone = BlendShapeUtility.FindBone(rootBone, modification.BonePath);
+
+            // 模型本身有旋转，但是模型里的第一个子物体一般没有旋转。
+            Quaternion modelRootRotationInv = Quaternion.Inverse(rootBone.root.localRotation);
+
+            Quaternion prevRot = modelRootRotationInv * prevBone.parent.rotation;
+            // Quaternion prevRotInv = Quaternion.Inverse(prevRot);
+            Quaternion currRot = modelRootRotationInv * currBone.parent.rotation;
+            Quaternion currRotInv = Quaternion.Inverse(currRot);
+
+            // 镜像的时候，先从旧的骨骼父空间变换到模型的本地空间，再镜像 X 轴，然后变换回新的骨骼父空间
+
+            // Translation
+            Vector3 translationMS = prevRot * modification.Translation;
+            translationMS.x *= -1;
+            modification.Translation = currRotInv * translationMS;
+
+            // Rotation
+            Quaternion.Euler(modification.Rotation).ToAngleAxis(out float angle, out Vector3 axis);
+            axis = currRotInv * Vector3.Scale(prevRot * axis, new Vector3(-1, 1, 1));
+            angle *= -1;
+            modification.Rotation = Quaternion.AngleAxis(angle, axis).eulerAngles;
+
+            // Scale
+            Vector3 scaleMS = prevRot * modification.Scale;
+            scaleMS.x *= -1;
+            modification.Scale = currRotInv * scaleMS;
+        }
+
+        public static int CompareBoneModifications(BoneModification x, BoneModification y)
+        {
+            string xName = x.BonePath?.Split('/')[^1];
+            string yName = y.BonePath?.Split('/')[^1];
+            return StringComparer.CurrentCulture.Compare(xName, yName);
+        }
+
+        public static int CompareBoneModificationsReverse(BoneModification x, BoneModification y)
+        {
+            return CompareBoneModifications(y, x);
+        }
     }
 }
