@@ -1,21 +1,14 @@
 syntax = "proto3";
-
 option csharp_namespace = "HSR.MotionCapture.Net.Protos";
 
+import "unityQuaternion.proto";
+
 message FaceData {
-    message Quaternion {
-        float x = 1;
-        float y = 2;
-        float z = 3;
-        float w = 4;
-    }
-
-    Quaternion headRotation = 1;
-
     message BlendShapeData {
         string name = 1;
         float value = 2;
     }
 
+    UnityQuaternion headRotation = 1;
     repeated BlendShapeData blendShapes = 2;
 }

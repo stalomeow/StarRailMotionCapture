@@ -1,0 +1,9 @@
+syntax = "proto3";
+option csharp_namespace = "HSR.MotionCapture.Net.Protos";
+
+message UnityQuaternion {
+    float w = 1;
+    float x = 2;
+    float y = 3;
+    float z = 4;
+}

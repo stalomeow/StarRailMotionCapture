@@ -1,3 +1,6 @@
+import sys
+sys.path.append("./Server/src/protos")
+
 import cv2
 import mediapipe as mp
 import time
@@ -13,6 +16,9 @@ BaseOptions = mp.tasks.BaseOptions
 FaceLandmarker = mp.tasks.vision.FaceLandmarker
 FaceLandmarkerOptions = mp.tasks.vision.FaceLandmarkerOptions
 FaceLandmarkerResult = mp.tasks.vision.FaceLandmarkerResult
+PoseLandmarker = mp.tasks.vision.PoseLandmarker
+PoseLandmarkerOptions = mp.tasks.vision.PoseLandmarkerOptions
+PoseLandmarkerResult = mp.tasks.vision.PoseLandmarkerResult
 VisionRunningMode = mp.tasks.vision.RunningMode
 
 WINDOW_NAME = 'Live'
@@ -57,6 +63,9 @@ if __name__ == '__main__':
                 faceLandmarks = None
                 print(e)
 
+        def sendPoseResults(result: FaceLandmarkerResult, output_image: mp.Image, timestamp_ms: int):
+            print('pose landmarker result: {}'.format(result))
+
         landmarkerOptions = FaceLandmarkerOptions(
             base_options=BaseOptions(model_asset_path=r"./Server/models/face_landmarker.task"),
             running_mode=VisionRunningMode.LIVE_STREAM,
@@ -65,6 +74,13 @@ if __name__ == '__main__':
             output_face_blendshapes=True,
             output_facial_transformation_matrixes=True,
             result_callback=sendResults)
+        # landmarkerOptions = PoseLandmarkerOptions(
+        #     base_options=BaseOptions(model_asset_path=r"./Server/models/pose_landmarker_heavy.task"),
+        #     running_mode=VisionRunningMode.LIVE_STREAM,
+        #     min_pose_detection_confidence=0.8,
+        #     min_pose_presence_confidence=0.8,
+        #     min_tracking_confidence=0.8,
+        #     result_callback=sendPoseResults)
 
         cap = None
         landmarker = None

@@ -1,0 +1,8 @@
+syntax = "proto3";
+option csharp_namespace = "HSR.MotionCapture.Net.Protos";
+
+import "unityVector3.proto";
+
+message PoseData {
+    repeated UnityVector3 landmarks = 1;
+}

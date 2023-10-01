@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 option csharp_namespace = "HSR.MotionCapture.Net.Protos";
 
 enum PacketCode

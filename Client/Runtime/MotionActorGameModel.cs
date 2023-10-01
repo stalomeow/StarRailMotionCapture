@@ -8,17 +8,15 @@ namespace HSR.MotionCapture
     [AddComponentMenu("Honkai Star Rail/Motion Capture/Motion Actor (Game Model)")]
     public class MotionActorGameModel : MonoBehaviour
     {
-        [Header("Renderers")]
-
+        [SerializeField] private Avatar m_Avatar;
         [SerializeField] private SkinnedMeshRenderer m_FaceRenderer;
+        [SerializeField] private bool m_FlipHorizontally = false;
 
-        [Header("Motion Settings")]
+        [Header("Face")]
 
         [SerializeField] private BlendShapeAsset m_BlendShapeData;
-
-        [SerializeField, Range(0, 1)] private float m_HeadRotationSmooth = 0.1f;
         [SerializeField, Range(0, 1)] private float m_BlendShapeSmooth = 0.1f;
-        [SerializeField] private bool m_FlipHorizontally = false;
+        [SerializeField, Range(0, 1)] private float m_HeadRotationSmooth = 0.1f;
 
         [NonSerialized] private Transform m_FaceRootBone;
         [NonSerialized] private List<BoneTransformSnapshot> m_FaceBoneInitialStates;
