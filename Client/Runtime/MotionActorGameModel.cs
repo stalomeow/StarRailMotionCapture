@@ -6,7 +6,7 @@ namespace HSR.MotionCapture
 {
     [DisallowMultipleComponent]
     [AddComponentMenu("Honkai Star Rail/Motion Capture/Motion Actor (Game Model)")]
-    public class MotionActorGameModel : RemoteMotionDataReceiver
+    public class MotionActorGameModel : MonoBehaviour
     {
         [Header("Renderers")]
 
@@ -27,7 +27,7 @@ namespace HSR.MotionCapture
         [NonSerialized] private Dictionary<string, float> m_LastBlendShapeWeights;
         [NonSerialized] private Quaternion m_LastHeadRotation;
 
-        protected override void Start()
+        private void Start()
         {
             m_FaceRootBone = m_FaceRenderer.rootBone;
             m_FaceBoneInitialStates = new List<BoneTransformSnapshot>();
@@ -57,36 +57,21 @@ namespace HSR.MotionCapture
 
             m_LastBlendShapeWeights = new Dictionary<string, float>();
             m_LastHeadRotation = Quaternion.identity;
-
-            base.Start();
         }
 
-        protected override void UpdateFaceMotion(FaceData data)
+        public void ResetHeadAndFace()
         {
             BoneTransformSnapshot.ApplyMany(m_FaceBoneInitialStates);
-            RotateHead(data);
-
-            Dictionary<string, BlendShapeAsset.BlendShapeData> blendShapeMap =
-                m_FlipHorizontally ? m_BlendShapeMapHFlip : m_BlendShapeMap;
-
-            foreach (var blendShape in data.BlendShapes)
-            {
-                if (!blendShapeMap.TryGetValue(blendShape.Name, out BlendShapeAsset.BlendShapeData blendShapeData))
-                {
-                    continue;
-                }
-
-                float lastWeight = m_LastBlendShapeWeights.GetValueOrDefault(blendShape.Name, 0);
-                float weight = Mathf.Lerp(blendShape.Value, lastWeight, m_BlendShapeSmooth);
-                m_LastBlendShapeWeights[blendShape.Name] = weight;
-
-                BlendShapeUtility.ApplyBlendShape(blendShapeData, m_FaceRootBone, weight);
-            }
         }
 
-        private void RotateHead(FaceData data)
+        public void RotateHead(Quaternion rotation)
         {
-            Quaternion rotation = ConvertRotation(data.HeadRotation, m_FlipHorizontally);
+            if (m_FlipHorizontally)
+            {
+                rotation.y *= -1;
+                rotation.z *= -1;
+            }
+
             rotation = Quaternion.Slerp(rotation, m_LastHeadRotation, m_HeadRotationSmooth);
 
             // 1. 用世界空间的旋转。
@@ -95,20 +80,21 @@ namespace HSR.MotionCapture
             m_LastHeadRotation = rotation;
         }
 
-        private static Quaternion ConvertRotation(FaceData.Types.Quaternion rotation, bool mirrorHorizontally)
+        public void SetBlendShapeWeight(string blendShapeName, float value)
         {
-            // Unity 是左手系。Y 轴向上，Z 轴向前，X 轴向右
-            // mediapipe 是右手系。Y 轴向上，Z 轴向前，X 轴向左
-            // rotation.w == cos(theta/2) 偶函数，不用管
-            Quaternion result = new(rotation.X, -rotation.Y, -rotation.Z, rotation.W);
+            Dictionary<string, BlendShapeAsset.BlendShapeData> blendShapeMap =
+                m_FlipHorizontally ? m_BlendShapeMapHFlip : m_BlendShapeMap;
 
-            if (mirrorHorizontally)
+            if (!blendShapeMap.TryGetValue(blendShapeName, out BlendShapeAsset.BlendShapeData blendShapeData))
             {
-                result.y *= -1;
-                result.z *= -1;
+                return;
             }
 
-            return result;
+            float lastWeight = m_LastBlendShapeWeights.GetValueOrDefault(blendShapeName, 0);
+            float weight = Mathf.Lerp(value, lastWeight, m_BlendShapeSmooth);
+            m_LastBlendShapeWeights[blendShapeName] = weight;
+
+            BlendShapeUtility.ApplyBlendShape(blendShapeData, m_FaceRootBone, weight);
         }
     }
 }

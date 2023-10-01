@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "HSR.MotionCapture";
+option csharp_namespace = "HSR.MotionCapture.Net.Protos";
 
 message FaceData {
     message Quaternion {

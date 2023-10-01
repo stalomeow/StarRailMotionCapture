@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace HSR.MotionCapture {
+namespace HSR.MotionCapture.Net.Protos {
 
   /// <summary>Holder for reflection information generated from faceData.proto</summary>
   public static partial class FaceDataReflection {
@@ -29,12 +29,12 @@ namespace HSR.MotionCapture {
             "IAMoCzIYLkZhY2VEYXRhLkJsZW5kU2hhcGVEYXRhGjgKClF1YXRlcm5pb24S",
             "CQoBeBgBIAEoAhIJCgF5GAIgASgCEgkKAXoYAyABKAISCQoBdxgEIAEoAhot",
             "Cg5CbGVuZFNoYXBlRGF0YRIMCgRuYW1lGAEgASgJEg0KBXZhbHVlGAIgASgC",
-            "QhSqAhFIU1IuTW90aW9uQ2FwdHVyZWIGcHJvdG8z"));
+            "Qh+qAhxIU1IuTW90aW9uQ2FwdHVyZS5OZXQuUHJvdG9zYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::HSR.MotionCapture.FaceData), global::HSR.MotionCapture.FaceData.Parser, new[]{ "HeadRotation", "BlendShapes" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::HSR.MotionCapture.FaceData.Types.Quaternion), global::HSR.MotionCapture.FaceData.Types.Quaternion.Parser, new[]{ "X", "Y", "Z", "W" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::HSR.MotionCapture.FaceData.Types.BlendShapeData), global::HSR.MotionCapture.FaceData.Types.BlendShapeData.Parser, new[]{ "Name", "Value" }, null, null, null, null)})
+            new pbr::GeneratedClrTypeInfo(typeof(global::HSR.MotionCapture.Net.Protos.FaceData), global::HSR.MotionCapture.Net.Protos.FaceData.Parser, new[]{ "HeadRotation", "BlendShapes" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::HSR.MotionCapture.Net.Protos.FaceData.Types.Quaternion), global::HSR.MotionCapture.Net.Protos.FaceData.Types.Quaternion.Parser, new[]{ "X", "Y", "Z", "W" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::HSR.MotionCapture.Net.Protos.FaceData.Types.BlendShapeData), global::HSR.MotionCapture.Net.Protos.FaceData.Types.BlendShapeData.Parser, new[]{ "Name", "Value" }, null, null, null, null)})
           }));
     }
     #endregion
@@ -55,7 +55,7 @@ namespace HSR.MotionCapture {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::HSR.MotionCapture.FaceDataReflection.Descriptor.MessageTypes[0]; }
+      get { return global::HSR.MotionCapture.Net.Protos.FaceDataReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -88,10 +88,10 @@ namespace HSR.MotionCapture {
 
     /// <summary>Field number for the "headRotation" field.</summary>
     public const int HeadRotationFieldNumber = 1;
-    private global::HSR.MotionCapture.FaceData.Types.Quaternion headRotation_;
+    private global::HSR.MotionCapture.Net.Protos.FaceData.Types.Quaternion headRotation_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::HSR.MotionCapture.FaceData.Types.Quaternion HeadRotation {
+    public global::HSR.MotionCapture.Net.Protos.FaceData.Types.Quaternion HeadRotation {
       get { return headRotation_; }
       set {
         headRotation_ = value;
@@ -100,12 +100,12 @@ namespace HSR.MotionCapture {
 
     /// <summary>Field number for the "blendShapes" field.</summary>
     public const int BlendShapesFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::HSR.MotionCapture.FaceData.Types.BlendShapeData> _repeated_blendShapes_codec
-        = pb::FieldCodec.ForMessage(18, global::HSR.MotionCapture.FaceData.Types.BlendShapeData.Parser);
-    private readonly pbc::RepeatedField<global::HSR.MotionCapture.FaceData.Types.BlendShapeData> blendShapes_ = new pbc::RepeatedField<global::HSR.MotionCapture.FaceData.Types.BlendShapeData>();
+    private static readonly pb::FieldCodec<global::HSR.MotionCapture.Net.Protos.FaceData.Types.BlendShapeData> _repeated_blendShapes_codec
+        = pb::FieldCodec.ForMessage(18, global::HSR.MotionCapture.Net.Protos.FaceData.Types.BlendShapeData.Parser);
+    private readonly pbc::RepeatedField<global::HSR.MotionCapture.Net.Protos.FaceData.Types.BlendShapeData> blendShapes_ = new pbc::RepeatedField<global::HSR.MotionCapture.Net.Protos.FaceData.Types.BlendShapeData>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::HSR.MotionCapture.FaceData.Types.BlendShapeData> BlendShapes {
+    public pbc::RepeatedField<global::HSR.MotionCapture.Net.Protos.FaceData.Types.BlendShapeData> BlendShapes {
       get { return blendShapes_; }
     }
 
@@ -201,7 +201,7 @@ namespace HSR.MotionCapture {
       }
       if (other.headRotation_ != null) {
         if (headRotation_ == null) {
-          HeadRotation = new global::HSR.MotionCapture.FaceData.Types.Quaternion();
+          HeadRotation = new global::HSR.MotionCapture.Net.Protos.FaceData.Types.Quaternion();
         }
         HeadRotation.MergeFrom(other.HeadRotation);
       }
@@ -223,7 +223,7 @@ namespace HSR.MotionCapture {
             break;
           case 10: {
             if (headRotation_ == null) {
-              HeadRotation = new global::HSR.MotionCapture.FaceData.Types.Quaternion();
+              HeadRotation = new global::HSR.MotionCapture.Net.Protos.FaceData.Types.Quaternion();
             }
             input.ReadMessage(HeadRotation);
             break;
@@ -249,7 +249,7 @@ namespace HSR.MotionCapture {
             break;
           case 10: {
             if (headRotation_ == null) {
-              HeadRotation = new global::HSR.MotionCapture.FaceData.Types.Quaternion();
+              HeadRotation = new global::HSR.MotionCapture.Net.Protos.FaceData.Types.Quaternion();
             }
             input.ReadMessage(HeadRotation);
             break;
@@ -282,7 +282,7 @@ namespace HSR.MotionCapture {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pbr::MessageDescriptor Descriptor {
-          get { return global::HSR.MotionCapture.FaceData.Descriptor.NestedTypes[0]; }
+          get { return global::HSR.MotionCapture.Net.Protos.FaceData.Descriptor.NestedTypes[0]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -582,7 +582,7 @@ namespace HSR.MotionCapture {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pbr::MessageDescriptor Descriptor {
-          get { return global::HSR.MotionCapture.FaceData.Descriptor.NestedTypes[1]; }
+          get { return global::HSR.MotionCapture.Net.Protos.FaceData.Descriptor.NestedTypes[1]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

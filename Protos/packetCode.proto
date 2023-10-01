@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "HSR.MotionCapture.Net.Protos";
+
+enum PacketCode
+{
+    reserved 2, 3;
+    reserved "CLIENT_CONNECT", "CLIENT_CONNECT_SERVER_RESPONSE";
+
+    NONE = 0;
+    DISCONNECT = 1;
+
+    // CLIENT_CONNECT = 2;
+    // CLIENT_CONNECT_SERVER_RESPONSE = 3;
+
+    CLIENT_HEART_BEAT = 4;
+    CLIENT_HEART_BEAT_SERVER_RESPONSE = 5;
+
+    FACE_DATA = 6;
+    POSE_DATA = 7;
+    HAND_DATA = 8;
+}

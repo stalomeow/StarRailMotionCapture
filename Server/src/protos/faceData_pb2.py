@@ -13,13 +13,14 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0e\x66\x61\x63\x65\x44\x61ta.proto\"\xce\x01\n\x08\x46\x61\x63\x65\x44\x61ta\x12*\n\x0cheadRotation\x18\x01 \x01(\x0b\x32\x14.FaceData.Quaternion\x12-\n\x0b\x62lendShapes\x18\x02 \x03(\x0b\x32\x18.FaceData.BlendShapeData\x1a\x38\n\nQuaternion\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\x12\t\n\x01w\x18\x04 \x01(\x02\x1a-\n\x0e\x42lendShapeData\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x02\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0e\x66\x61\x63\x65\x44\x61ta.proto\"\xce\x01\n\x08\x46\x61\x63\x65\x44\x61ta\x12*\n\x0cheadRotation\x18\x01 \x01(\x0b\x32\x14.FaceData.Quaternion\x12-\n\x0b\x62lendShapes\x18\x02 \x03(\x0b\x32\x18.FaceData.BlendShapeData\x1a\x38\n\nQuaternion\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\x12\t\n\x01w\x18\x04 \x01(\x02\x1a-\n\x0e\x42lendShapeData\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x02\x42\x1f\xaa\x02\x1cHSR.MotionCapture.Net.Protosb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'faceData_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
+  DESCRIPTOR._serialized_options = b'\252\002\034HSR.MotionCapture.Net.Protos'
   _globals['_FACEDATA']._serialized_start=19
   _globals['_FACEDATA']._serialized_end=225
   _globals['_FACEDATA_QUATERNION']._serialized_start=122
