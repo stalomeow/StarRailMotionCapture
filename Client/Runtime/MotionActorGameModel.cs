@@ -5,6 +5,7 @@ using UnityEngine;
 namespace HSR.MotionCapture
 {
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(Animator))]
     [AddComponentMenu("Honkai Star Rail/Motion Capture/Motion Actor (Game Model)")]
     public class MotionActorGameModel : MonoBehaviour
     {
@@ -24,6 +25,10 @@ namespace HSR.MotionCapture
         [NonSerialized] private Dictionary<string, BlendShapeAsset.BlendShapeData> m_BlendShapeMapHFlip;
         [NonSerialized] private Dictionary<string, float> m_LastBlendShapeWeights;
         [NonSerialized] private Quaternion m_LastHeadRotation;
+
+        [NonSerialized] private Animator m_Animator;
+        [NonSerialized] public BoneTransformSnapshot UpperChest;
+        [NonSerialized] public Quaternion LastUCR = Quaternion.identity;
 
         private void Start()
         {
@@ -55,6 +60,9 @@ namespace HSR.MotionCapture
 
             m_LastBlendShapeWeights = new Dictionary<string, float>();
             m_LastHeadRotation = Quaternion.identity;
+
+            m_Animator = GetComponent<Animator>();
+            UpperChest = new BoneTransformSnapshot(GetHumanBodyBone(HumanBodyBones.UpperChest));
         }
 
         public void ResetHeadAndFace()
@@ -93,6 +101,11 @@ namespace HSR.MotionCapture
             m_LastBlendShapeWeights[blendShapeName] = weight;
 
             BlendShapeUtility.ApplyBlendShape(blendShapeData, m_FaceRootBone, weight);
+        }
+
+        public Transform GetHumanBodyBone(HumanBodyBones boneId)
+        {
+            return m_Animator.GetBoneTransform(boneId);
         }
     }
 }

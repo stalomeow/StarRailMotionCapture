@@ -26,6 +26,8 @@ namespace HSR.MotionCapture.Net
         [SerializeField] private float m_HeartBeatResponseTimeout = 10.0f;
         [SerializeField] private List<MotionActorGameModel> m_Actors;
 
+        public Transform Points;
+
         public IReadOnlyList<MotionActorGameModel> Actors => m_Actors;
 
         private EndPoint m_ServerEP;
@@ -112,7 +114,7 @@ namespace HSR.MotionCapture.Net
                     continue;
                 }
 
-                object payload = handler.ParsePayload(payloadBytes);
+                object payload = handler.ParsePayload(code, payloadBytes);
                 m_ReceivedPackets.Enqueue((code, payload, handler));
             }
         }

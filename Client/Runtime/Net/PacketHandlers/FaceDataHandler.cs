@@ -6,14 +6,14 @@ namespace HSR.MotionCapture.Net.PacketHandlers
     [CustomPacketHandler(PacketCode.FaceData)]
     public class FaceDataHandler : IPacketHandler
     {
-        public object ParsePayload(ReadOnlySpan<byte> payloadBytes)
+        public object ParsePayload(PacketCode code, ReadOnlySpan<byte> payloadBytes)
         {
             return FaceData.Parser.ParseFrom(payloadBytes);
         }
 
         public void Handle(UDPSession session, PacketCode code, object payload)
         {
-            FaceData data = (FaceData)payload;
+            using FaceData data = (FaceData)payload;
 
             foreach (var actor in session.Actors)
             {

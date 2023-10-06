@@ -4,6 +4,7 @@
 # Server
 /Server/**/__pycache__/
 /Server/env/
+/Server/test/
 
 # Client
 /Client/**/*.meta

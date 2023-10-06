@@ -7,7 +7,7 @@ namespace HSR.MotionCapture.Net.PacketHandlers
     [CustomPacketHandler(PacketCode.Disconnect)]
     public class DisconnectHandler : IPacketHandler
     {
-        public object ParsePayload(ReadOnlySpan<byte> payloadBytes)
+        public object ParsePayload(PacketCode code, ReadOnlySpan<byte> payloadBytes)
         {
             return null;
         }

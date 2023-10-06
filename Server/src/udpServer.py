@@ -1,7 +1,5 @@
-import importlib
 import socket
 import threading
-import typing
 
 from datetime import datetime
 from packet import Packet
@@ -129,8 +127,3 @@ class UDPServer(object):
                 print(f'Register packet handler \'{handler}\' for \'{packetCode}\'')
             return handler
         return handlerDecorator
-
-    @staticmethod
-    def importClientPacketHandlers(handlerNames: typing.Iterable[str]):
-        for handler in handlerNames:
-            importlib.import_module('.' + handler, 'handlers')

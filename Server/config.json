@@ -1,8 +1,0 @@
-{
-    "windowName": "Live",
-    "modelPath": "./Server/models/face_landmarker.task",
-    "handlers": [
-        "handleDisconnect",
-        "handleHeartBeat"
-    ]
-}
