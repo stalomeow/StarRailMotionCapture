@@ -9,6 +9,6 @@ namespace HSR.MotionCapture.Net
     {
         object ParsePayload(PacketCode code, ReadOnlySpan<byte> payloadBytes);
 
-        void Handle(UDPSession session, PacketCode code, object payload);
+        void HandlePacketAndReleasePayload(UDPSession session, PacketCode code, object payload);
     }
 }

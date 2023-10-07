@@ -8,35 +8,33 @@ from protos.packetCode_pb2 import PacketCode
 class UDPServer(object):
     _clientPacketHandlers = {}
 
-    def __init__(self, port: int, *, kickSeconds=10.0, recvBufferSize=2048):
+    def __init__(self, port: int, *, heartBeatTimeoutSecs=10.0, recvBufferSize=2048):
+        self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self._sock.setblocking(False) # settimeout(0.0)
+
         hostName = socket.gethostname()
         addr = socket.gethostbyname(hostName)
-        self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self._sock.bind((addr, port))
 
-        self._kickSeconds = kickSeconds
+        self._heartBeatTimeoutSecs = heartBeatTimeoutSecs
         self._recvBufferSize = recvBufferSize
 
         self._clients = set()
         self._clientLastHeartBeatTimes = {}
         self._clientLock = threading.Lock()
 
-        self._recvThreadAlive = True
-        self._recvThread = threading.Thread(target=self._recv, daemon=True)
+        self._recvThreadStopEvent = threading.Event()
+        self._recvThread = threading.Thread(target=self._recv)
 
     def __enter__(self):
-        self._recvThread.start()
-        print(f'Start UDP Server {self._sock.getsockname()}...')
+        self.start()
         return self
 
     def __exit__(self, *args, **kwargs):
-        self.send(Packet(PacketCode.DISCONNECT))
-
-        self._sock.close()
-        self._recvThreadAlive = False
+        self.close()
 
     def _recv(self):
-        while self._recvThreadAlive:
+        while not self._recvThreadStopEvent.is_set():
             try:
                 data, addr = self._sock.recvfrom(self._recvBufferSize)
             except:
@@ -48,7 +46,7 @@ class UDPServer(object):
                 print(f'A bad packet was received from {addr}!')
                 continue
 
-            handler = type(self)._clientPacketHandlers.get(packet.packetCode, None)
+            handler = self.__class__._clientPacketHandlers.get(packet.packetCode, None)
 
             if handler is None:
                 print(f'Packet \'{packet.packetCode}\' has no handler!')
@@ -59,7 +57,7 @@ class UDPServer(object):
             try:
                 if addr not in self._clients:
                     self._clients.add(addr)
-                    print(f'New client {addr} was added')
+                    print(f'New client {addr} was added!')
             finally:
                 self._clientLock.release()
 
@@ -78,23 +76,26 @@ class UDPServer(object):
         else:
             self._sock.sendto(data, clientAddr)
 
-    def kickOfflineClients(self):
+    def tick(self):
+        self._checkClientHeartBeats()
+
+    def _checkClientHeartBeats(self):
         now = datetime.now()
 
         self._clientLock.acquire()
         try:
             for client in self._clients:
                 lastHeartBeatTime = self._clientLastHeartBeatTimes.get(client, datetime.min)
-                if (now - lastHeartBeatTime).seconds >= self._kickSeconds:
+                if (now - lastHeartBeatTime).seconds >= self._heartBeatTimeoutSecs:
                     self._clientLastHeartBeatTimes.pop(client, None)
-                    print(f'Client {client} is offline')
+                    print(f'Client {client} lost connection!')
 
             self._clients.clear()
             self._clients.update(self._clientLastHeartBeatTimes.keys())
         finally:
             self._clientLock.release()
 
-    def heartBeatClient(self, clientAddr):
+    def refreshClientLastHeartBeatTime(self, clientAddr):
         self._clientLock.acquire()
         try:
             self._clientLastHeartBeatTimes[clientAddr] = datetime.now()
@@ -109,6 +110,17 @@ class UDPServer(object):
         finally:
             self._clientLock.release()
 
+    def start(self):
+        self._recvThread.start()
+        print(f'Start UDP Server {self._sock.getsockname()}...')
+
+    def close(self):
+        self._recvThreadStopEvent.set()
+        self._recvThread.join()
+
+        self.send(Packet(PacketCode.QUIT_NOTIFY))
+        self._sock.close()
+
     @property
     def clientCount(self) -> int:
         self._clientLock.acquire()
@@ -121,9 +133,9 @@ class UDPServer(object):
     def clientPacketHandler(cls, packetCode: PacketCode):
         def handlerDecorator(handler):
             if packetCode in cls._clientPacketHandlers:
-                print(f'Duplicated packet handler \'{handler}\' for \'{packetCode}\'')
+                print(f'Duplicated packet handler \'{handler}\' for \'{PacketCode.Name(packetCode)}\'')
             else:
                 cls._clientPacketHandlers[packetCode] = handler
-                print(f'Register packet handler \'{handler}\' for \'{packetCode}\'')
+                print(f'Register packet handler \'{handler}\' for \'{PacketCode.Name(packetCode)}\'')
             return handler
         return handlerDecorator

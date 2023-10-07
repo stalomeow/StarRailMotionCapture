@@ -1,18 +1,15 @@
 import mediapipe as mp
 
-from landmarkerWrapper import LandmarkerWrapper
-from udpServer import UDPServer
+from landmarkers.landmarker import Landmarker
+from server import UDPServer
 from packet import Packet
 from protos.poseData_pb2 import PoseData
 from protos.packetCode_pb2 import PacketCode
 
 PoseLandmarkerResult = mp.tasks.vision.PoseLandmarkerResult
 
-class PoseLandmarker(LandmarkerWrapper):
+class PoseLandmarker(Landmarker):
     CONFIG = {
-        # base options
-        'model_asset_path': r'./Server/models/pose_landmarker_heavy.task',
-
         # landmarker options
         'landmarker_type': mp.tasks.vision.PoseLandmarker,
         'landmarker_options_type': mp.tasks.vision.PoseLandmarkerOptions,

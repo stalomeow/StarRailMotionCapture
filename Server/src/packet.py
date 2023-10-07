@@ -39,7 +39,7 @@ class Packet(object):
         if head != PACKET_CONST_HEAD:
             return None
 
-        packetCode = _readUInt16(data, 2) # PacketCode
+        packetCode = _readUInt16(data, 2)
         payloadLength = _readUInt16(data, 4)
         payloadBytes = data[6:6+payloadLength]
 

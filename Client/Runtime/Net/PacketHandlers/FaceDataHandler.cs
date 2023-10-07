@@ -11,7 +11,7 @@ namespace HSR.MotionCapture.Net.PacketHandlers
             return FaceData.Parser.ParseFrom(payloadBytes);
         }
 
-        public void Handle(UDPSession session, PacketCode code, object payload)
+        public void HandlePacketAndReleasePayload(UDPSession session, PacketCode code, object payload)
         {
             using FaceData data = (FaceData)payload;
 
@@ -20,8 +20,9 @@ namespace HSR.MotionCapture.Net.PacketHandlers
                 actor.ResetHeadAndFace();
                 actor.RotateHead(data.HeadRotation);
 
-                foreach (var blendShape in data.BlendShapes)
+                for (int i = 0; i < data.BlendShapes.Count; i++)
                 {
+                    var blendShape = data.BlendShapes[i];
                     actor.SetBlendShapeWeight(blendShape.Name, blendShape.Value);
                 }
             }

@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace HSR.MotionCapture.Net.PacketHandlers
 {
-    [CustomPacketHandler(PacketCode.Disconnect)]
-    public class DisconnectHandler : IPacketHandler
+    [CustomPacketHandler(PacketCode.QuitNotify)]
+    public class QuitNotifyHandler : IPacketHandler
     {
         public object ParsePayload(PacketCode code, ReadOnlySpan<byte> payloadBytes)
         {
             return null;
         }
 
-        public void Handle(UDPSession session, PacketCode code, object payload)
+        public void HandlePacketAndReleasePayload(UDPSession session, PacketCode code, object payload)
         {
-            Debug.Log("Server is disconnected");
+            Debug.Log("Server is quit!");
 
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.ExitPlaymode();

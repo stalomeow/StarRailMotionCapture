@@ -14,7 +14,7 @@ namespace HSR.MotionCapture.Net.PacketHandlers
             return PoseData.Parser.ParseFrom(payloadBytes);
         }
 
-        public void Handle(UDPSession session, PacketCode code, object payload)
+        public void HandlePacketAndReleasePayload(UDPSession session, PacketCode code, object payload)
         {
             using PoseData poseData = (PoseData)payload;
 

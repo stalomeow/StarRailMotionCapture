@@ -24,12 +24,11 @@ namespace HSR.MotionCapture.Net.Protos {
     static PacketCodeReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChBwYWNrZXRDb2RlLnByb3RvKs0BCgpQYWNrZXRDb2RlEggKBE5PTkUQABIO",
-            "CgpESVNDT05ORUNUEAESFQoRQ0xJRU5UX0hFQVJUX0JFQVQQBBIlCiFDTElF",
-            "TlRfSEVBUlRfQkVBVF9TRVJWRVJfUkVTUE9OU0UQBRINCglGQUNFX0RBVEEQ",
-            "BhINCglQT1NFX0RBVEEQBxINCglIQU5EX0RBVEEQCCIECAIQAiIECAMQAyoO",
-            "Q0xJRU5UX0NPTk5FQ1QqHkNMSUVOVF9DT05ORUNUX1NFUlZFUl9SRVNQT05T",
-            "RUIfqgIcSFNSLk1vdGlvbkNhcHR1cmUuTmV0LlByb3Rvc2IGcHJvdG8z"));
+            "ChBwYWNrZXRDb2RlLnByb3RvKogBCgpQYWNrZXRDb2RlEggKBE5PTkUQABIP",
+            "CgtRVUlUX05PVElGWRABEhIKDkhFQVJUX0JFQVRfUkVREAQSEgoOSEVBUlRf",
+            "QkVBVF9SU1AQBRINCglGQUNFX0RBVEEQBhINCglQT1NFX0RBVEEQBxINCglI",
+            "QU5EX0RBVEEQCCIECAIQAiIECAMQA0IfqgIcSFNSLk1vdGlvbkNhcHR1cmUu",
+            "TmV0LlByb3Rvc2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::HSR.MotionCapture.Net.Protos.PacketCode), }, null, null));
@@ -40,9 +39,9 @@ namespace HSR.MotionCapture.Net.Protos {
   #region Enums
   public enum PacketCode {
     [pbr::OriginalName("NONE")] None = 0,
-    [pbr::OriginalName("DISCONNECT")] Disconnect = 1,
-    [pbr::OriginalName("CLIENT_HEART_BEAT")] ClientHeartBeat = 4,
-    [pbr::OriginalName("CLIENT_HEART_BEAT_SERVER_RESPONSE")] ClientHeartBeatServerResponse = 5,
+    [pbr::OriginalName("QUIT_NOTIFY")] QuitNotify = 1,
+    [pbr::OriginalName("HEART_BEAT_REQ")] HeartBeatReq = 4,
+    [pbr::OriginalName("HEART_BEAT_RSP")] HeartBeatRsp = 5,
     [pbr::OriginalName("FACE_DATA")] FaceData = 6,
     [pbr::OriginalName("POSE_DATA")] PoseData = 7,
     [pbr::OriginalName("HAND_DATA")] HandData = 8,

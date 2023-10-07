@@ -27,8 +27,6 @@ namespace HSR.MotionCapture
         [NonSerialized] private Quaternion m_LastHeadRotation;
 
         [NonSerialized] private Animator m_Animator;
-        [NonSerialized] public BoneTransformSnapshot UpperChest;
-        [NonSerialized] public Quaternion LastUCR = Quaternion.identity;
 
         private void Start()
         {
@@ -62,7 +60,6 @@ namespace HSR.MotionCapture
             m_LastHeadRotation = Quaternion.identity;
 
             m_Animator = GetComponent<Animator>();
-            UpperChest = new BoneTransformSnapshot(GetHumanBodyBone(HumanBodyBones.UpperChest));
         }
 
         public void ResetHeadAndFace()

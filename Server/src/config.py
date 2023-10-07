@@ -1,20 +1,25 @@
-from landmarkers.faceLandmarker import FaceLandmarker
-from landmarkers.poseLandmarker import PoseLandmarker
+SERVER_CONFIG = {
+    'port': 5000,
+    'heartBeatTimeoutSecs': 10.0,
+    'recvBufferSize': 2048,
+}
 
-SERVER_UDP_PORT = 5000
+CAPTURE_CONFIG = {
+    'cameraIndexOrVideoFileName': 0,
+    # 'cameraIndexOrVideoFileName': 1,
+    # 'cameraIndexOrVideoFileName': r'./Server/test/ikun1.mp4',
+}
 
-WINDOW_NAME = 'Live'
-WINDOW_TOPMOST = True
-WINDOW_ENABLE = True
+WINDOW_CONFIG = {
+    'name': 'Live',
+    'topmost': True,
+    'enable': True,
+}
 
-VIDEO_CAPTURE_ARGS = (0,)
-# VIDEO_CAPTURE_ARGS = (r'./Server/test/ikun1.mp4',)
+def getLandmarker(server):
+    import landmarkers as ls
 
-LANDMARKER_TYPES = [
-    FaceLandmarker,
-    PoseLandmarker
-]
-
-def importServerPacketHandlers():
-    import handlers.handleDisconnect
-    import handlers.handleHeartBeat
+    return ls.LandmarkerGroup(
+        ls.FaceLandmarker(server, model_asset_path=r'./Server/models/face_landmarker.task'),
+        ls.PoseLandmarker(server, model_asset_path=r'./Server/models/pose_landmarker_heavy.task'),
+    )

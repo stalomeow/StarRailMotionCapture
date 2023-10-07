@@ -2,7 +2,7 @@ import mediapipe as mp
 
 from datetime import datetime
 from packet import Packet
-from udpServer import UDPServer
+from server import UDPServer
 from mediapipe.framework.formats import landmark_pb2
 
 BaseOptions = mp.tasks.BaseOptions
@@ -23,7 +23,7 @@ def _mergeConfig(obj, **kwargs) -> dict:
         results.update(config)
     return results
 
-class LandmarkerWrapper(object):
+class Landmarker(object):
     CONFIG = {
         # base options
         'model_asset_path': None,
@@ -70,6 +70,12 @@ class LandmarkerWrapper(object):
     @property
     def runningMode(self) -> VisionRunningMode:
         return self._landmarkerOptions.running_mode
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args, **kwargs):
+        self.stop()
 
     def stop(self):
         if self._landmarker is None:
@@ -148,9 +154,15 @@ class LandmarkerWrapper(object):
     def _getDrawingLandmarks(self, result):
         pass
 
-class LandmarkerWrapperGroup(object):
-    def __init__(self, *landmarkers: LandmarkerWrapper):
+class LandmarkerGroup(object):
+    def __init__(self, *landmarkers: Landmarker):
         self._landmarkers = landmarkers
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args, **kwargs):
+        self.stop()
 
     def stop(self):
         for l in self._landmarkers:

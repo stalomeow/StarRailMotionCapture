@@ -1,8 +1,8 @@
 import mediapipe as mp
 import numpy as np
 
-from landmarkerWrapper import LandmarkerWrapper
-from udpServer import UDPServer
+from landmarkers.landmarker import Landmarker
+from server import UDPServer
 from packet import Packet
 from protos.faceData_pb2 import FaceData
 from protos.packetCode_pb2 import PacketCode
@@ -33,11 +33,8 @@ def _extractRotation(outQuaternion, matrix):
     except Exception as e:
         print(e)
 
-class FaceLandmarker(LandmarkerWrapper):
+class FaceLandmarker(Landmarker):
     CONFIG = {
-        # base options
-        'model_asset_path': r'./Server/models/face_landmarker.task',
-
         # landmarker options
         'landmarker_type': mp.tasks.vision.FaceLandmarker,
         'landmarker_options_type': mp.tasks.vision.FaceLandmarkerOptions,

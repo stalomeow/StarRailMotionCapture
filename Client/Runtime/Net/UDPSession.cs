@@ -13,30 +13,26 @@ namespace HSR.MotionCapture.Net
 {
     public class UDPSession : MonoBehaviour
     {
-        private const int BufferSize = 2048;
-
         [Header("Server")]
 
         [SerializeField] private string m_ServerIPAddress = "127.0.0.1";
         [SerializeField] private int m_ServerPort = 5000;
 
         [Header("Client")]
-
+        [SerializeField, Range(1024, 4096)] private int m_BufferSize = 2048;
         [SerializeField] private float m_HeartBeatIntervalSeconds = 2.0f;
         [SerializeField] private float m_HeartBeatResponseTimeout = 10.0f;
         [SerializeField] private List<MotionActorGameModel> m_Actors;
 
-        public Transform Points;
-
-        public IReadOnlyList<MotionActorGameModel> Actors => m_Actors;
+        public List<MotionActorGameModel> Actors => m_Actors;
 
         private EndPoint m_ServerEP;
         private Socket m_Socket;
 
-        private ConcurrentQueue<(PacketCode code, object payload, IPacketHandler handler)> m_ReceivedPackets;
-        private byte[] m_ReceiveBuffer;
-        private bool m_IsReceiveThreadAlive;
-        private Thread m_ReceiveThread;
+        private ConcurrentQueue<(PacketCode code, object payload, IPacketHandler handler)> m_RecvPackets;
+        private byte[] m_RecvBuffer;
+        private ManualResetEventSlim m_RecvThreadStopEvent;
+        private Thread m_RecvThread;
 
         private byte[] m_SendBuffer;
         private float m_LastTimeHeartBeat;
@@ -67,6 +63,7 @@ namespace HSR.MotionCapture.Net
                 {
                     IPEndPoint ipEndPoint = new IPEndPoint(ipAddress, 0); // With any port available
                     m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                    m_Socket.ReceiveTimeout = 1; // milliseconds. 0 or -1 means infinity.
                     m_Socket.Bind(ipEndPoint);
                     m_Socket.Connect(m_ServerEP);
                     break;
@@ -76,33 +73,33 @@ namespace HSR.MotionCapture.Net
 
         private void InitReceive()
         {
-            m_ReceivedPackets = new ConcurrentQueue<(PacketCode code, object payload, IPacketHandler handler)>();
-            m_ReceiveBuffer = new byte[BufferSize];
-            m_IsReceiveThreadAlive = true;
-            m_ReceiveThread = new Thread(Receive) { IsBackground = true };
-            m_ReceiveThread.Start();
+            m_RecvPackets = new ConcurrentQueue<(PacketCode code, object payload, IPacketHandler handler)>();
+            m_RecvBuffer = new byte[m_BufferSize];
+            m_RecvThreadStopEvent = new ManualResetEventSlim(false);
+            m_RecvThread = new Thread(Receive) { IsBackground = false };
+            m_RecvThread.Start();
         }
 
         private void InitSend()
         {
-            m_SendBuffer = new byte[BufferSize];
+            m_SendBuffer = new byte[m_BufferSize];
             m_LastTimeHeartBeat = 0;
         }
 
         private void Receive()
         {
-            while (m_IsReceiveThreadAlive)
+            while (!m_RecvThreadStopEvent.IsSet)
             {
                 try
                 {
-                    m_Socket.ReceiveFrom(m_ReceiveBuffer, ref m_ServerEP);
+                    m_Socket.ReceiveFrom(m_RecvBuffer, ref m_ServerEP);
                 }
                 catch
                 {
                     continue;
                 }
 
-                if (!Packet.TryRead(m_ReceiveBuffer, out PacketCode code, out ReadOnlySpan<byte> payloadBytes))
+                if (!Packet.TryRead(m_RecvBuffer, out PacketCode code, out ReadOnlySpan<byte> payloadBytes))
                 {
                     Debug.LogWarning("A bad packet was received!");
                     continue;
@@ -115,7 +112,7 @@ namespace HSR.MotionCapture.Net
                 }
 
                 object payload = handler.ParsePayload(code, payloadBytes);
-                m_ReceivedPackets.Enqueue((code, payload, handler));
+                m_RecvPackets.Enqueue((code, payload, handler));
             }
         }
 
@@ -139,9 +136,9 @@ namespace HSR.MotionCapture.Net
 
         private void HandlePendingPackets()
         {
-            while (m_ReceivedPackets.TryDequeue(out (PacketCode code, object payload, IPacketHandler handler) packet))
+            while (m_RecvPackets.TryDequeue(out (PacketCode code, object payload, IPacketHandler handler) packet))
             {
-                packet.handler.Handle(this, packet.code, packet.payload);
+                packet.handler.HandlePacketAndReleasePayload(this, packet.code, packet.payload);
             }
         }
 
@@ -157,7 +154,7 @@ namespace HSR.MotionCapture.Net
                 return;
             }
 
-            Debug.LogWarning("Server is not available!");
+            Debug.LogWarning("Server lost connection!");
 
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.ExitPlaymode();
@@ -175,20 +172,18 @@ namespace HSR.MotionCapture.Net
                 return;
             }
 
-            Send(PacketCode.ClientHeartBeat);
+            Send(PacketCode.HeartBeatReq);
             m_LastTimeHeartBeat = time;
             LastHeartBeatResponseTime ??= time; // 第一次发包
         }
 
         private void OnDestroy()
         {
-            Send(PacketCode.Disconnect);
+            m_RecvThreadStopEvent.Set();
+            m_RecvThread.Join();
 
+            Send(PacketCode.QuitNotify);
             m_Socket.Dispose();
-            m_IsReceiveThreadAlive = false;
-            m_ReceiveThread.Join();
-
-            Debug.Log($"[{GetType().Name}] Exit");
         }
 
         #region Packet Handlers

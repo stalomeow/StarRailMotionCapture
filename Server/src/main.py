@@ -1,49 +1,54 @@
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), r'protos'))
 
-import cv2
-import config
-import mediapipe as mp
-import time
-
-from cvWindow import CVWindow
-from landmarkerWrapper import LandmarkerWrapperGroup
-from udpServer import UDPServer
+def _addProtoImportPath():
+    srcFolder = os.path.dirname(__file__)
+    sys.path.insert(1, os.path.join(srcFolder, r'protos'))
 
 def main():
-    config.importServerPacketHandlers()
+    _addProtoImportPath()
 
-    with UDPServer(config.SERVER_UDP_PORT) as server:
-        cap = None
-        window = CVWindow(config.WINDOW_NAME, config.WINDOW_TOPMOST, config.WINDOW_ENABLE)
-        landmarkers = LandmarkerWrapperGroup(*(ty(server) for ty in config.LANDMARKER_TYPES))
+    import time
+    import cv2
+    import mediapipe as mp
+    import config
+    import cvutils
+    import handlers
+    import server as sv
+
+    capture = cvutils.LazyLiveCapture(**config.CAPTURE_CONFIG)
+    window = cvutils.LazyLiveWindow(**config.WINDOW_CONFIG)
+    server = sv.UDPServer(**config.SERVER_CONFIG)
+    landmarker = config.getLandmarker(server)
+
+    try:
+        server.start()
 
         while True:
-            server.kickOfflineClients()
+            server.tick()
 
             if server.clientCount <= 0:
-                if cap is not None:
-                    cap.release()
-                    cap = None
-                window.hide()
-                landmarkers.stop()
+                capture.release()
+                window.close()
+                landmarker.stop()
                 time.sleep(1)
                 continue
 
-            if cap is None:
-                cap = cv2.VideoCapture(*config.VIDEO_CAPTURE_ARGS)
-            success, img = cap.read()
-
+            success, img = capture.read()
             if not success:
                 exit(-1)
 
-            landmarkers.detect(mp.Image(image_format=mp.ImageFormat.SRGB, data=img))
-            landmarkers.drawLandmarks(img)
+            landmarker.detect(mp.Image(image_format=mp.ImageFormat.SRGB, data=img))
+            landmarker.drawLandmarks(img)
             window.showImage(img)
 
             if (cv2.waitKey(1) & 0xFF) == ord('q'):
                 exit()
+    finally:
+        capture.release()
+        window.close()
+        landmarker.stop()
+        server.close()
 
 if __name__ == '__main__':
     main()
