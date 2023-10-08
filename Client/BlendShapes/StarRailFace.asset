@@ -2714,7 +2714,7 @@ MonoBehaviour:
     Description: "\u7F29\u5C0F\u5634\u5507\u7684\u5BBD\u5EA6\n\n\u5634\u5507\u8D8A\u7A84\uFF0C\u770B\u8D77\u6765\u5C31\u8D8A\u4E30\u6EE1\u3001\u8D8A\u524D\u503E\u3002\n\n\u4E0E\u5634\u5DF4\u6F0F\u6597\u7ED3\u5408\u5F62\u6210\u63A5\u543B\u5634\n\n\u4E0EjawOpen\u7EC4\u5408\u65F6\uFF0C\u6CE8\u610F\u4E0D\u8981\u4F7F\u7A84\u5634\u7684\u5F62\u72B6\u5728\u5782\u76F4\u65B9\u5411\u4E0A\u8FC7\u4E8E\u62C9\u957F\u3002\n\n\u540C\u65F6\u6536\u7D27\u820C\u5934\u548C\u5634\u5507\uFF08\u4EE5\u9632\u6B62\u6E17\u900F\u5230\u5634\u89D2\uFF09"
     BoneModifications:
     - BonePath: joint_skin_GRP/joint_face/lipConner_L
-      Translation: {x: 0.0035185758, y: 0, z: 0.002180867}
+      Translation: {x: 0.0036185756, y: 0, z: 0.0010808632}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -2743,7 +2743,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipLower_00_L
-      Translation: {x: 0.0024185777, y: -0.00000023841858, z: 0.0021808147}
+      Translation: {x: 0.0025185794, y: 0, z: 0.0010807514}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -2772,7 +2772,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipLower_01_L
-      Translation: {x: 0.0024185777, y: -0.00000023841858, z: 0.0021808147}
+      Translation: {x: 0.0025185794, y: 0, z: 0.0010807514}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -2801,7 +2801,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipUpper_00_L
-      Translation: {x: 0.0024185777, y: -0.00000023841858, z: 0.0021808147}
+      Translation: {x: 0.0025185794, y: 0, z: 0.0010807514}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -2830,7 +2830,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipUpper_01_L
-      Translation: {x: 0.0024185777, y: -0.00000023841858, z: 0.0021808147}
+      Translation: {x: 0.0025185794, y: 0, z: 0.0010807514}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -2859,7 +2859,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipConner_R
-      Translation: {x: -0.0035185758, y: -0.00000023841858, z: 0.0021808147}
+      Translation: {x: -0.003418574, y: 0, z: 0.0010807514}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -2888,7 +2888,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipLower_00_R
-      Translation: {x: -0.0024185777, y: -0.00000023841858, z: 0.0021808147}
+      Translation: {x: -0.002318576, y: 0, z: 0.0010807514}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -2917,7 +2917,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipLower_01_R
-      Translation: {x: -0.0024185777, y: -0.00000023841858, z: 0.0021808147}
+      Translation: {x: -0.002318576, y: 0, z: 0.0010807514}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -2946,7 +2946,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipUpper_00_R
-      Translation: {x: -0.0024185777, y: -0.00000023841858, z: 0.0021808147}
+      Translation: {x: -0.002318576, y: 0, z: 0.0010807514}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -2975,7 +2975,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipUpper_01_R
-      Translation: {x: -0.0024185777, y: -0.00000023841858, z: 0.0021808147}
+      Translation: {x: -0.002318576, y: 0, z: 0.0010807514}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -3004,7 +3004,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipLower_M
-      Translation: {x: 0, y: -0.00000023841858, z: 0.0021808147}
+      Translation: {x: 0.00010000169, y: 0, z: 0.0010807514}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -3033,7 +3033,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipUpper_M
-      Translation: {x: 0, y: -0.00000023841858, z: 0.0021808147}
+      Translation: {x: 0.00010000169, y: 0, z: 0.0010807514}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -4245,7 +4245,7 @@ MonoBehaviour:
       \u914D\u5408\u4F7F\u7528\uFF0C\u521B\u5EFA\u4E00\u4E2A\u7D27\u95ED\u7684\u201Che\u201D\u5F62\u76B1\u7709\u5634\u5DF4\u3002\r\n\r\n\u6B64\u5916\uFF0C\u5982\u679C\u4F60\u5728\u6309\u4E0B\u5634\u7684\u540C\u65F6\u79FB\u52A8\uFF0C\u4F60\u7684\u5634\u5C31\u4F1A\u88AB\u7D27\u7D27\u5730\u675F\u7F1A\u4F4F\u3002\r\n\r\n\u5411\u4E0B\u62C9\u5634\u89D2\u7684\u52A8\u4F5C\u5E94\u8BE5\u9002\u7528\u4E8E\u4E0A\u5507\u6216\u4E0B\u5507\uFF0C\u56E0\u4E3A\u5982\u679C\u5747\u5300\u5730\u5206\u914D\u5728\u4E0A\u5507\u548C\u4E0B\u5507\u4E4B\u95F4\uFF0C\u5634\u89D2\u5C31\u4F1A\u53D8\u5F97\u677E\u5F1B\u3002"
     BoneModifications:
     - BonePath: joint_skin_GRP/joint_face/lipUpper_M
-      Translation: {x: 0, y: 0.0062923245, z: -0.000019058585}
+      Translation: {x: 0, y: 0.0074923243, z: -0.000019058585}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -4274,7 +4274,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipUpper_01_L
-      Translation: {x: 0, y: 0.0018935837, z: 0.000015221536}
+      Translation: {x: 0, y: 0.002793584, z: 0.000015221536}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -4303,7 +4303,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipUpper_01_R
-      Translation: {x: -0.000000007450581, y: 0.0018935204, z: 0.000015258789}
+      Translation: {x: -0.000000007450581, y: 0.0027935505, z: 0.000015258789}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -4332,7 +4332,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipUpper_00_L
-      Translation: {x: 0, y: 0.0048029013, z: 0.00001334399}
+      Translation: {x: 0, y: 0.0062029026, z: 0.00001334399}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -4361,7 +4361,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipUpper_00_R
-      Translation: {x: 0, y: 0.0048029423, z: 0.00001335144}
+      Translation: {x: 0, y: 0.0062026978, z: 0.00001335144}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -5384,7 +5384,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipUpper_00_L
-      Translation: {x: 0, y: 0.0036028996, z: 0.00001334399}
+      Translation: {x: 0, y: 0.0042029023, z: 0.00001334399}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -5413,7 +5413,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipUpper_M
-      Translation: {x: 0, y: 0.0024923235, z: -0.000019058585}
+      Translation: {x: 0, y: 0.0033923239, z: -0.000019058585}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -5475,7 +5475,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipUpper_00_R
-      Translation: {x: 0, y: 0.0036028996, z: 0.00001334399}
+      Translation: {x: 0, y: 0.0042029023, z: 0.00001334399}
       Rotation: {x: -0, y: -0, z: -0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -5504,7 +5504,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipUpper_M
-      Translation: {x: 0, y: 0.0024923235, z: -0.000019058585}
+      Translation: {x: 0, y: 0.0033923239, z: -0.000019058585}
       Rotation: {x: -0, y: -0, z: -0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -5537,7 +5537,7 @@ MonoBehaviour:
     Description: 
     BoneModifications:
     - BonePath: joint_skin_GRP/joint_face/lipLower_M
-      Translation: {x: 0, y: -0.0013707206, z: 0.000034742057}
+      Translation: {x: 0, y: -0.0018707216, z: 0.000034742057}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -5595,7 +5595,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipLower_00_L
-      Translation: {x: 0, y: -0.002667226, z: 0.000027164817}
+      Translation: {x: 0, y: -0.0033672266, z: 0.000027164817}
       Rotation: {x: -0, y: 0, z: 0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -5628,7 +5628,7 @@ MonoBehaviour:
     Description: 
     BoneModifications:
     - BonePath: joint_skin_GRP/joint_face/lipLower_M
-      Translation: {x: 0, y: -0.0013707206, z: 0.000034742057}
+      Translation: {x: 0, y: -0.0018707216, z: 0.000034742057}
       Rotation: {x: -0, y: -0, z: -0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
@@ -5686,7 +5686,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       Editor_Foldout: 0
     - BonePath: joint_skin_GRP/joint_face/lipLower_00_R
-      Translation: {x: 0, y: -0.002667226, z: 0.000027164817}
+      Translation: {x: 0, y: -0.0033672266, z: 0.000027164817}
       Rotation: {x: -0, y: -0, z: -0}
       Scale: {x: 0, y: 0, z: 0}
       Curve:
