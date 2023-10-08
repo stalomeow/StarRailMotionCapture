@@ -5,8 +5,8 @@ SERVER_CONFIG = {
 }
 
 CAPTURE_CONFIG = {
-    # 'cameraIndexOrVideoFileName': 0,
-    'cameraIndexOrVideoFileName': 1,
+    'cameraIndexOrVideoFileName': 0,
+    # 'cameraIndexOrVideoFileName': 1,
     # 'cameraIndexOrVideoFileName': r'./Server/test/ikun.mp4',
 }
 
@@ -26,5 +26,5 @@ def getLandmarker(server):
 
     return ls.LandmarkerGroup(
         ls.FaceLandmarker(server, model_asset_path=_src(r'../models/face_landmarker.task')),
-        ls.PoseLandmarker(server, model_asset_path=_src(r'../models/pose_landmarker_heavy.task')),
+        # ls.PoseLandmarker(server, model_asset_path=_src(r'../models/pose_landmarker_heavy.task')),
     )
