@@ -1,6 +1,5 @@
 using HSR.MotionCapture.Net.Protos;
 using System;
-using UnityEngine;
 
 namespace HSR.MotionCapture.Net.PacketHandlers
 {
@@ -14,7 +13,7 @@ namespace HSR.MotionCapture.Net.PacketHandlers
 
         public void HandlePacketAndReleasePayload(UDPSession session, PacketCode code, object payload)
         {
-            session.LastHeartBeatResponseTime = Time.realtimeSinceStartup;
+            session.RefreshLastHeartBeatResponseTime();
             // Debug.Log("Heart beat rsp");
         }
     }

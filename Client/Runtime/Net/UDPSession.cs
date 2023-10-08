@@ -14,92 +14,68 @@ namespace HSR.MotionCapture.Net
     public class UDPSession : MonoBehaviour
     {
         [Header("Server")]
-
         [SerializeField] private string m_ServerIPAddress = "127.0.0.1";
         [SerializeField] private int m_ServerPort = 5000;
 
         [Header("Client")]
         [SerializeField, Range(1024, 4096)] private int m_BufferSize = 2048;
         [SerializeField] private float m_HeartBeatIntervalSeconds = 2.0f;
-        [SerializeField] private float m_HeartBeatResponseTimeout = 10.0f;
+        [SerializeField] private float m_HeartBeatTimeoutSeconds = 10.0f;
         [SerializeField] private List<MotionActorGameModel> m_Actors;
 
-        public List<MotionActorGameModel> Actors => m_Actors;
-
-        private EndPoint m_ServerEP;
         private Socket m_Socket;
-
-        private ConcurrentQueue<(PacketCode code, object payload, IPacketHandler handler)> m_RecvPackets;
-        private byte[] m_RecvBuffer;
-        private ManualResetEventSlim m_RecvThreadStopEvent;
-        private Thread m_RecvThread;
 
         private byte[] m_SendBuffer;
         private float m_LastTimeHeartBeat;
+        private float? m_LastHeartBeatResponseTime;
 
-        public float? LastHeartBeatResponseTime { get; set; }
+        private byte[] m_RecvBuffer;
+        private Thread m_RecvThread;
+        private ManualResetEventSlim m_RecvThreadStopEvent;
+        private ConcurrentQueue<HandlePacketTask> m_HandlePacketTaskQueue;
+
+        public List<MotionActorGameModel> Actors => m_Actors;
 
         private void Start()
         {
-            InitServerEP();
-            InitSocket();
-            InitReceive();
-            InitSend();
-        }
+            var localEP = GetLocalIPEndPoint();
+            var serverEP = new IPEndPoint(IPAddress.Parse(m_ServerIPAddress), m_ServerPort);
 
-        private void InitServerEP()
-        {
-            IPAddress ipAddress = IPAddress.Parse(m_ServerIPAddress);
-            m_ServerEP = new IPEndPoint(ipAddress, m_ServerPort);
-        }
+            m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            m_Socket.ReceiveTimeout = 100; // milliseconds. 0 or -1 means infinity.
+            m_Socket.Bind(localEP);
+            m_Socket.Connect(serverEP);
 
-        private void InitSocket()
-        {
-            string hostName = Dns.GetHostName();
-
-            foreach (IPAddress ipAddress in Dns.GetHostAddresses(hostName))
-            {
-                if (ipAddress.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    IPEndPoint ipEndPoint = new IPEndPoint(ipAddress, 0); // With any port available
-                    m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                    m_Socket.ReceiveTimeout = 1; // milliseconds. 0 or -1 means infinity.
-                    m_Socket.Bind(ipEndPoint);
-                    m_Socket.Connect(m_ServerEP);
-                    break;
-                }
-            }
-        }
-
-        private void InitReceive()
-        {
-            m_RecvPackets = new ConcurrentQueue<(PacketCode code, object payload, IPacketHandler handler)>();
-            m_RecvBuffer = new byte[m_BufferSize];
-            m_RecvThreadStopEvent = new ManualResetEventSlim(false);
-            m_RecvThread = new Thread(Receive) { IsBackground = false };
-            m_RecvThread.Start();
-        }
-
-        private void InitSend()
-        {
             m_SendBuffer = new byte[m_BufferSize];
             m_LastTimeHeartBeat = 0;
+            m_LastHeartBeatResponseTime = null;
+
+            m_RecvBuffer = new byte[m_BufferSize];
+            m_RecvThread = new Thread(Receive) { Name = "Receive UDP Packets", IsBackground = false };
+            m_RecvThreadStopEvent = new ManualResetEventSlim(false);
+            m_HandlePacketTaskQueue = new ConcurrentQueue<HandlePacketTask>();
+
+            m_RecvThread.Start();
         }
 
         private void Receive()
         {
             while (!m_RecvThreadStopEvent.IsSet)
             {
+                int len;
+
                 try
                 {
-                    m_Socket.ReceiveFrom(m_RecvBuffer, ref m_ServerEP);
+                    len = m_Socket.Receive(m_RecvBuffer);
                 }
                 catch
                 {
                     continue;
                 }
 
-                if (!Packet.TryRead(m_RecvBuffer, out PacketCode code, out ReadOnlySpan<byte> payloadBytes))
+                Span<byte> bytes = m_RecvBuffer.AsSpan(0, len);
+
+                if (!Packet.TryRead(bytes, out PacketCode code, out ReadOnlySpan<byte> payloadBytes))
                 {
                     Debug.LogWarning("A bad packet was received!");
                     continue;
@@ -112,7 +88,7 @@ namespace HSR.MotionCapture.Net
                 }
 
                 object payload = handler.ParsePayload(code, payloadBytes);
-                m_RecvPackets.Enqueue((code, payload, handler));
+                m_HandlePacketTaskQueue.Enqueue(new HandlePacketTask(code, payload, handler));
             }
         }
 
@@ -123,33 +99,34 @@ namespace HSR.MotionCapture.Net
 
         public void Send<T>(PacketCode packetCode, T payload, [CanBeNull] Packet.WritePayloadAction<T> writePayloadBytes)
         {
-            int len = Packet.Write(m_SendBuffer, packetCode, payload, writePayloadBytes);
-            m_Socket.Send(m_SendBuffer, 0, len, SocketFlags.None);
+            Span<byte> buffer = m_SendBuffer.AsSpan();
+            int len = Packet.Write(buffer, packetCode, payload, writePayloadBytes);
+            m_Socket.Send(buffer[..len]);
         }
 
         private void Update()
         {
-            HandlePendingPackets();
-            CheckConnection();
-            HeartBeat();
+            HandlePackets();
+            CheckServerConnection();
+            SendHeartBeat();
         }
 
-        private void HandlePendingPackets()
+        private void HandlePackets()
         {
-            while (m_RecvPackets.TryDequeue(out (PacketCode code, object payload, IPacketHandler handler) packet))
+            while (m_HandlePacketTaskQueue.TryDequeue(out HandlePacketTask task))
             {
-                packet.handler.HandlePacketAndReleasePayload(this, packet.code, packet.payload);
+                task.Handle(this);
             }
         }
 
-        private void CheckConnection()
+        private void CheckServerConnection()
         {
-            if (LastHeartBeatResponseTime == null)
+            if (m_LastHeartBeatResponseTime == null)
             {
                 return;
             }
 
-            if (m_LastTimeHeartBeat - LastHeartBeatResponseTime < m_HeartBeatResponseTimeout)
+            if (m_LastTimeHeartBeat - m_LastHeartBeatResponseTime < m_HeartBeatTimeoutSeconds)
             {
                 return;
             }
@@ -163,7 +140,7 @@ namespace HSR.MotionCapture.Net
 #endif
         }
 
-        private void HeartBeat()
+        private void SendHeartBeat()
         {
             float time = Time.realtimeSinceStartup;
 
@@ -174,7 +151,14 @@ namespace HSR.MotionCapture.Net
 
             Send(PacketCode.HeartBeatReq);
             m_LastTimeHeartBeat = time;
-            LastHeartBeatResponseTime ??= time; // 第一次发包
+
+            // 第一次发心跳包的时候更新
+            m_LastHeartBeatResponseTime ??= time;
+        }
+
+        public void RefreshLastHeartBeatResponseTime()
+        {
+            m_LastHeartBeatResponseTime = Time.realtimeSinceStartup;
         }
 
         private void OnDestroy()
@@ -184,6 +168,40 @@ namespace HSR.MotionCapture.Net
 
             Send(PacketCode.QuitNotify);
             m_Socket.Dispose();
+        }
+
+        private static IPEndPoint GetLocalIPEndPoint()
+        {
+            string hostName = Dns.GetHostName();
+
+            foreach (IPAddress ipAddress in Dns.GetHostAddresses(hostName))
+            {
+                if (ipAddress.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return new IPEndPoint(ipAddress, 0); // With any port available
+                }
+            }
+
+            throw new NotSupportedException();
+        }
+
+        private readonly struct HandlePacketTask
+        {
+            private readonly PacketCode m_Code;
+            private readonly object m_Payload;
+            private readonly IPacketHandler m_Handler;
+
+            public HandlePacketTask(PacketCode code, object payload, IPacketHandler handler)
+            {
+                m_Code = code;
+                m_Payload = payload;
+                m_Handler = handler;
+            }
+
+            public void Handle(UDPSession session)
+            {
+                m_Handler.HandlePacketAndReleasePayload(session, m_Code, m_Payload);
+            }
         }
 
         #region Packet Handlers

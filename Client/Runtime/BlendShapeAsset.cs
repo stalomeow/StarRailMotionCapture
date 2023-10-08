@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HSR.MotionCapture
 {
-    [CreateAssetMenu(menuName = "Honkai: StarRail/BlendShape")]
+    [CreateAssetMenu(menuName = "Honkai: StarRail/Motion Capture/Blend Shape")]
     public class BlendShapeAsset : ScriptableObject
     {
         [Serializable]

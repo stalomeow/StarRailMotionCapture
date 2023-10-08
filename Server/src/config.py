@@ -5,9 +5,9 @@ SERVER_CONFIG = {
 }
 
 CAPTURE_CONFIG = {
-    'cameraIndexOrVideoFileName': 0,
-    # 'cameraIndexOrVideoFileName': 1,
-    # 'cameraIndexOrVideoFileName': r'./Server/test/ikun1.mp4',
+    # 'cameraIndexOrVideoFileName': 0,
+    'cameraIndexOrVideoFileName': 1,
+    # 'cameraIndexOrVideoFileName': r'./Server/test/ikun.mp4',
 }
 
 WINDOW_CONFIG = {
@@ -16,10 +16,15 @@ WINDOW_CONFIG = {
     'enable': True,
 }
 
+def _src(*paths):
+    import os
+    srcFolder = os.path.dirname(__file__)
+    return os.path.normpath(os.path.join(srcFolder, *paths))
+
 def getLandmarker(server):
     import landmarkers as ls
 
     return ls.LandmarkerGroup(
-        ls.FaceLandmarker(server, model_asset_path=r'./Server/models/face_landmarker.task'),
-        ls.PoseLandmarker(server, model_asset_path=r'./Server/models/pose_landmarker_heavy.task'),
+        ls.FaceLandmarker(server, model_asset_path=_src(r'../models/face_landmarker.task')),
+        ls.PoseLandmarker(server, model_asset_path=_src(r'../models/pose_landmarker_heavy.task')),
     )

@@ -35,16 +35,24 @@ class Packet(object):
 
     @classmethod
     def decode(cls, data: bytes) -> typing.Union["Packet", None]:
-        head = _readUInt16(data, 0)
-        if head != PACKET_CONST_HEAD:
+        # sizeof(CONST_HEAD + PacketCode + PayloadLength + CONST_TAIL) == 8
+        if len(data) < 8:
+            return None
+
+        # Check Head Const
+        if _readUInt16(data, 0) != PACKET_CONST_HEAD:
+            return None
+
+        payloadLength = _readUInt16(data, 4)
+
+        # Check Packet Size
+        if len(data) != 8 + payloadLength:
+            return None
+
+        # Check Tail Const
+        if _readUInt16(data, 6 + payloadLength) != PACKET_CONST_TAIL:
             return None
 
         packetCode = _readUInt16(data, 2)
-        payloadLength = _readUInt16(data, 4)
         payloadBytes = data[6:6+payloadLength]
-
-        tail = _readUInt16(data, 6 + payloadLength)
-        if tail != PACKET_CONST_TAIL:
-            return None
-
         return cls(packetCode, payloadBytes)

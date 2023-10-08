@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace HSR.MotionCapture
 {
@@ -9,9 +10,8 @@ namespace HSR.MotionCapture
     [AddComponentMenu("Honkai Star Rail/Motion Capture/Motion Actor (Game Model)")]
     public class MotionActorGameModel : MonoBehaviour
     {
-        [SerializeField] private Avatar m_Avatar;
         [SerializeField] private SkinnedMeshRenderer m_FaceRenderer;
-        [SerializeField] private bool m_FlipHorizontally = false;
+        [SerializeField, FormerlySerializedAs("m_FlipHorizontally")] private bool m_FlipMotionHorizontally = false;
 
         [Header("Face")]
 
@@ -69,7 +69,7 @@ namespace HSR.MotionCapture
 
         public void RotateHead(Quaternion rotation)
         {
-            if (m_FlipHorizontally)
+            if (m_FlipMotionHorizontally)
             {
                 rotation.y *= -1;
                 rotation.z *= -1;
@@ -77,16 +77,18 @@ namespace HSR.MotionCapture
 
             rotation = Quaternion.Slerp(rotation, m_LastHeadRotation, m_HeadRotationSmooth);
 
-            // 1. 用世界空间的旋转。
-            // 2. 四元数乘法不满足交换律。
-            m_FaceRootBone.rotation = rotation * m_FaceRootBone.rotation;
+            Quaternion modelRot = transform.rotation;
+            Quaternion modelRotInv = Quaternion.Inverse(modelRot);
+
+            // 在模型的本地空间进行旋转
+            m_FaceRootBone.rotation = modelRot * rotation * modelRotInv * m_FaceRootBone.rotation;
             m_LastHeadRotation = rotation;
         }
 
         public void SetBlendShapeWeight(string blendShapeName, float value)
         {
             Dictionary<string, BlendShapeAsset.BlendShapeData> blendShapeMap =
-                m_FlipHorizontally ? m_BlendShapeMapHFlip : m_BlendShapeMap;
+                m_FlipMotionHorizontally ? m_BlendShapeMapHFlip : m_BlendShapeMap;
 
             if (!blendShapeMap.TryGetValue(blendShapeName, out BlendShapeAsset.BlendShapeData blendShapeData))
             {
