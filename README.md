@@ -4,6 +4,8 @@ Motion capture for the character models of Honkai: Star Rail base on Unity and M
 
 **Currently face only.**
 
+![example](/Screenshots~/example.png)
+
 ## Known limitations
 
 - Face capture only supports character models **with facial skeleton**, e.g., the models ripped directly from StarRail.
@@ -16,7 +18,7 @@ Protocols between the server and the client are written in protobuf and compiled
 
 **Developed with Python 3.10.**
 
-It captures motion data from your webcam or a video file and sends them to clients.
+It captures motion data using your webcam or from a video file and sends them to clients.
 
 ### Setup
 
@@ -52,7 +54,7 @@ Run [Server/src/main.py](/Server/src/main.py).
 
     If you are using a datamined model, after setting its `Scale Factor` to `150` in the Import Settings, you can directly use the blend shape asset in the [Client/BlendShapes](/Client/BlendShapes) folder.
 
-    To create a custom blend shape asset, please read the '[Create Custom BlendShape Asset](#create-custom-blendshape-asset)' section.
+    To create a custom blend shape asset, please read the '[Create custom blend shape asset](#create-custom-blend-shape-asset)' section.
 
 3. Add a `Motion Actor (Game Model)` component to your character.
 
@@ -66,9 +68,9 @@ Run [Server/src/main.py](/Server/src/main.py).
 
 Simply enter play mode in your Unity editor.
 
-### Create Custom BlendShape Asset
+### Create custom blend shape asset
 
-1. Create using context menu.
+1. Create asset using context menu.
 
     ![create-bs-asset](/Screenshots~/create_bs_asset.png)
 
