@@ -7,6 +7,6 @@
 /Server/test/
 
 # Client
-/Client/**/*.meta
+# /Client/**/*.meta
 /Client/BlendShapes/StarRailFaceBackup.asset
 /Client/BlendShapes/StarRailFaceTest.asset
