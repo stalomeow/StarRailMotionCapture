@@ -1,8 +1,6 @@
 # StarRailMotionCapture
 
-Motion capture for the character models of Honkai: Star Rail base on Unity and MediaPipe.
-
-**Currently face only.**
+Motion capture for the character models of Honkai: Star Rail base on Unity and MediaPipe. **Currently face only.**
 
 ![example](/Screenshots~/example.png)
 
@@ -42,31 +40,9 @@ Run [Server/src/main.py](/Server/src/main.py).
 
 **Developed with Unity 2022.3.**
 
-### Requirements
+### Demo
 
-- My [Protobuf-Unity](https://github.com/stalomeow/Protobuf-Unity) package.
-
-### Setup
-
-1. Prepare a character model in the scene.
-
-2. Prepare a blend shape asset to drive the character's facial expression.
-
-    If you are using a datamined model, after setting its `Scale Factor` to `150` in the Import Settings, you can directly use the blend shape asset in the [Client/BlendShapes](/Client/BlendShapes) folder.
-
-    To create a custom blend shape asset, please read the '[Create custom blend shape asset](#create-custom-blend-shape-asset)' section.
-
-3. Add a `Motion Actor (Game Model)` component to your character.
-
-    ![setup-model](/Screenshots~/setup_model.png)
-
-4. Add a `UDP Session` component to the scene and set the server's address and port. Then, drag your actors onto `Actors` field.
-
-    ![setup-session](/Screenshots~/setup_session.png)
-
-### Run the client
-
-Simply enter play mode in your Unity editor.
+A demo unity project is provided in [Client/StarRailMotionCapture](Client/StarRailMotionCapture) folder.
 
 ### Create custom blend shape asset
 

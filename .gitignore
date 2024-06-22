@@ -1,14 +1,1 @@
-# VSCode
 /.vscode/
-
-# Server
-/Server/**/__pycache__/
-/Server/env/
-/Server/test/
-
-# Client
-# /Client/**/*.meta
-/Client/BlendShapes/StarRailFaceBackup.asset
-/Client/BlendShapes/StarRailFaceBackup.asset.meta
-/Client/BlendShapes/StarRailFaceTest.asset
-/Client/BlendShapes/StarRailFaceTest.asset.meta
