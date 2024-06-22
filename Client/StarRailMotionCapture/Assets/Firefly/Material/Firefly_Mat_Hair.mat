@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Firefly_Mat_Hair
+  m_Shader: {fileID: 4800000, guid: 2dc60603c5db08646bfd45227dae2207, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _MODEL_GAME
+  - _OUTLINENORMAL_TANGENT
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _LightMap:
+        m_Texture: {fileID: 2800000, guid: e0a6f04e5ba2d4e4890d4445b923cb5a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d6f21f60a476b4141a0f757e8b40d326, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RampMapCool:
+        m_Texture: {fileID: 2800000, guid: 8d36fe2787dd7154da2fb05c12191293, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RampMapWarm:
+        m_Texture: {fileID: 2800000, guid: 0967443ed2c235747a24d145868f57a0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaTest: 0
+    - _AlphaTestThreshold: 0.5
+    - _BackFaceUV2: 0
+    - _Cull: 2
+    - _DitherAlpha: 1
+    - _DstBlendAlpha: 0
+    - _EmissionIntensity: 0
+    - _EmissionThreshold: 1
+    - _HairBlendAlpha: 0.6
+    - _Model: 0
+    - _ModelScale: 1
+    - _OutlineNormal: 0
+    - _OutlineWidth: 1
+    - _OutlineZOffset: 0
+    - _RampCoolWarmLerpFactor: 1
+    - _RimDark0: 0.5
+    - _RimEdgeSoftness: 0.05
+    - _RimIntensity: 0.5
+    - _RimIntensityAdditionalLight: 0.5
+    - _RimIntensityBackFace: 0
+    - _RimIntensityBackFaceAdditionalLight: 0
+    - _RimShadowCt: 0.9
+    - _RimShadowFeather0: 0.873
+    - _RimShadowIntensity: 1
+    - _RimShadowWidth0: 1
+    - _RimWidth0: 0.5
+    - _SpecularIntensity0: 0.3
+    - _SpecularRoughness0: 0
+    - _SpecularShininess0: 3
+    - _SrcBlendAlpha: 0
+    - _mmBloomIntensity0: 0.02
+    m_Colors:
+    - _BackColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor0: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MMDHeadBoneForward: {r: 0, g: 0, b: 1, a: 0}
+    - _MMDHeadBoneRight: {r: 1, g: 0, b: 0, a: 0}
+    - _MMDHeadBoneUp: {r: 0, g: 1, b: 0, a: 0}
+    - _Maps_ST: {r: 1, g: 1, b: 0, a: 0}
+    - _OutlineColor0: {r: 0.3, g: 0.27600002, b: 0.284, a: 1}
+    - _RimColor0: {r: 0.8773585, g: 0.83183515, b: 0.8375256, a: 1}
+    - _RimShadowColor0: {r: 1, g: 1, b: 1, a: 1}
+    - _RimShadowOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecularColor0: {r: 0.7735849, g: 0.71155214, b: 0.71155214, a: 1}
+  m_BuildTextureStacks: []

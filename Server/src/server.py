@@ -12,9 +12,7 @@ class UDPServer(object):
         self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self._sock.setblocking(False) # settimeout(0.0)
 
-        hostName = socket.gethostname()
-        addr = socket.gethostbyname(hostName)
-        self._sock.bind((addr, port))
+        self._sock.bind(('0.0.0.0', port))
 
         self._heartBeatTimeoutSecs = heartBeatTimeoutSecs
         self._recvBufferSize = recvBufferSize

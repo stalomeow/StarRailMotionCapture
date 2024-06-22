@@ -1,0 +1,160 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Firefly_00_Mat_Body2_Trans
+  m_Shader: {fileID: 4800000, guid: 10088bb375bd73d478691e66f3ee13df, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _MODEL_GAME
+  - _OUTLINENORMAL_TANGENT
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _LightMap:
+        m_Texture: {fileID: 2800000, guid: dcc1ff8b4319a5449a87ae22d18ac15f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d7bcd6f93e1ad2448a37ebca109954b3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RampMapCool:
+        m_Texture: {fileID: 2800000, guid: 4f9e1dd6e2fcdef44aeb32393d23603e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RampMapWarm:
+        m_Texture: {fileID: 2800000, guid: cb09227179ef36a4c9ca48b18c375e93, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BackFaceUV2: 0
+    - _BloomColor: 0
+    - _BloomIntensity: 0
+    - _Cull: 2
+    - _DitherAlpha: 1
+    - _DstBlendAlpha: 0
+    - _DstBlendColor: 1
+    - _EmissionIntensity: 0
+    - _EmissionThreshold: 1
+    - _Model: 0
+    - _ModelScale: 1
+    - _OutlineColor: 0
+    - _OutlineNormal: 0
+    - _OutlineWidth: 1
+    - _OutlineZOffset: 0
+    - _RampCoolWarmLerpFactor: 1
+    - _RimShadowColor: 0
+    - _RimShadowCt: 1
+    - _RimShadowFeather: 0
+    - _RimShadowFeather0: 0.5
+    - _RimShadowFeather1: 0.8
+    - _RimShadowFeather2: 0.65
+    - _RimShadowFeather3: 0.6
+    - _RimShadowFeather4: 0.8
+    - _RimShadowFeather5: 0.01
+    - _RimShadowFeather6: 0.01
+    - _RimShadowFeather7: 0.6
+    - _RimShadowIntensity: 1
+    - _RimShadowWidth: 0
+    - _RimShadowWidth0: 1
+    - _RimShadowWidth1: 1.2
+    - _RimShadowWidth2: 2
+    - _RimShadowWidth3: 1.63
+    - _RimShadowWidth4: 0
+    - _RimShadowWidth5: 0
+    - _RimShadowWidth6: 0
+    - _RimShadowWidth7: 2
+    - _SingleMaterialID: -1
+    - _SpecularColor: 0
+    - _SpecularIntensity: 0
+    - _SpecularIntensity0: 1
+    - _SpecularIntensity1: 1
+    - _SpecularIntensity2: 1.1
+    - _SpecularIntensity3: 50
+    - _SpecularIntensity4: 3
+    - _SpecularIntensity5: 3.5
+    - _SpecularIntensity6: 41.9
+    - _SpecularIntensity7: 1
+    - _SpecularRoughness: 0
+    - _SpecularRoughness0: 0.02
+    - _SpecularRoughness1: 0.02
+    - _SpecularRoughness2: 0.05
+    - _SpecularRoughness3: 0.02
+    - _SpecularRoughness4: 0.05
+    - _SpecularRoughness5: 0.1
+    - _SpecularRoughness6: 0.02
+    - _SpecularRoughness7: 0.02
+    - _SpecularShininess: 0
+    - _SpecularShininess0: 10
+    - _SpecularShininess1: 10
+    - _SpecularShininess2: 10
+    - _SpecularShininess3: 10
+    - _SpecularShininess4: 10
+    - _SpecularShininess5: 8.5
+    - _SpecularShininess6: 20
+    - _SpecularShininess7: 10
+    - _SrcBlendAlpha: 0
+    - _SrcBlendColor: 1
+    - _mmBloomIntensity0: 0.02
+    - _mmBloomIntensity1: 0.02
+    - _mmBloomIntensity2: 0.1
+    - _mmBloomIntensity3: 0.02
+    - _mmBloomIntensity4: 0.5
+    - _mmBloomIntensity5: 0.1
+    - _mmBloomIntensity6: 0.1
+    - _mmBloomIntensity7: 0.2
+    m_Colors:
+    - _BackColor: {r: 0.9579922, g: 0.97041774, b: 0.9811321, a: 1}
+    - _BloomColor0: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor1: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor2: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor3: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor4: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor5: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor6: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor7: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Maps_ST: {r: 1, g: 1, b: 0, a: 0}
+    - _OutlineColor0: {r: 0.2735849, g: 0.073558204, b: 0.073558204, a: 1}
+    - _OutlineColor1: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor2: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor3: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
+    - _OutlineColor4: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
+    - _OutlineColor5: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor6: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor7: {r: 0, g: 0, b: 0, a: 1}
+    - _RimShadowColor0: {r: 1, g: 1, b: 1, a: 1}
+    - _RimShadowColor1: {r: 0.83119357, g: 0.7654859, b: 0.8867924, a: 1}
+    - _RimShadowColor2: {r: 0.41509432, g: 0.17320277, b: 0, a: 1}
+    - _RimShadowColor3: {r: 0, g: 0.43930626, b: 1, a: 1}
+    - _RimShadowColor4: {r: 1, g: 1, b: 1, a: 1}
+    - _RimShadowColor5: {r: 1, g: 1, b: 1, a: 1}
+    - _RimShadowColor6: {r: 1, g: 1, b: 1, a: 1}
+    - _RimShadowColor7: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
+    - _RimShadowOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecularColor0: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecularColor1: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecularColor2: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecularColor3: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecularColor4: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecularColor5: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
+    - _SpecularColor6: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecularColor7: {r: 0, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []

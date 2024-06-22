@@ -38,12 +38,10 @@ namespace HSR.MotionCapture.Net
 
         private void Start()
         {
-            var localEP = GetLocalIPEndPoint();
             var serverEP = new IPEndPoint(IPAddress.Parse(m_ServerIPAddress), m_ServerPort);
 
             m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             m_Socket.ReceiveTimeout = 100; // milliseconds. 0 or -1 means infinity.
-            m_Socket.Bind(localEP);
             m_Socket.Connect(serverEP);
 
             m_SendBuffer = new byte[m_BufferSize];
@@ -168,21 +166,6 @@ namespace HSR.MotionCapture.Net
 
             Send(PacketCode.QuitNotify);
             m_Socket.Dispose();
-        }
-
-        private static IPEndPoint GetLocalIPEndPoint()
-        {
-            string hostName = Dns.GetHostName();
-
-            foreach (IPAddress ipAddress in Dns.GetHostAddresses(hostName))
-            {
-                if (ipAddress.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    return new IPEndPoint(ipAddress, 0); // With any port available
-                }
-            }
-
-            throw new NotSupportedException();
         }
 
         private readonly struct HandlePacketTask

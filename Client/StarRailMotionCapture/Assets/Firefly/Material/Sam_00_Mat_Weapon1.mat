@@ -1,0 +1,213 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sam_00_Mat_Weapon1
+  m_Shader: {fileID: 4800000, guid: 36188a0b5b70a0942945754cdf718ca2, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _MODEL_GAME
+  - _OUTLINENORMAL_TANGENT
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _LightMap:
+        m_Texture: {fileID: 2800000, guid: 10dbba812ec1b3547afa361db33134b8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: f48defb88e5a3d940834c1adaabdb818, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RampMapCool:
+        m_Texture: {fileID: 2800000, guid: 446d17dd1800d2b45bbdf76a41420650, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RampMapWarm:
+        m_Texture: {fileID: 2800000, guid: be9612d6941496741998f22e4557159c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StockingsMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaTest: 0
+    - _AlphaTestThreshold: 0.5
+    - _BackFaceUV2: 0
+    - _BloomColor: 0
+    - _BloomIntensity: 0
+    - _Cull: 2
+    - _DitherAlpha: 1
+    - _DstBlendAlpha: 0
+    - _DstBlendColor: 0
+    - _EmissionIntensity: 2
+    - _EmissionThreshold: 0.2
+    - _Model: 0
+    - _ModelScale: 1
+    - _OutlineColor: 0
+    - _OutlineNormal: 0
+    - _OutlineWidth: 1
+    - _OutlineZOffset: 0
+    - _RampCoolWarmLerpFactor: 1
+    - _RimColor: 0
+    - _RimDark: 0
+    - _RimDark0: 0.5
+    - _RimDark1: 0.5
+    - _RimDark2: 0.5
+    - _RimDark3: 0.5
+    - _RimDark4: 0.5
+    - _RimDark5: 0.5
+    - _RimDark6: 0.5
+    - _RimDark7: 0.5
+    - _RimEdgeSoftness: 0
+    - _RimEdgeSoftness0: 0.05
+    - _RimEdgeSoftness1: 0.05
+    - _RimEdgeSoftness2: 0.05
+    - _RimEdgeSoftness3: 0.05
+    - _RimEdgeSoftness4: 0.05
+    - _RimEdgeSoftness5: 0.05
+    - _RimEdgeSoftness6: 0.05
+    - _RimEdgeSoftness7: 0.05
+    - _RimIntensity: 0.5
+    - _RimIntensityAdditionalLight: 0.5
+    - _RimIntensityBackFace: 0
+    - _RimIntensityBackFaceAdditionalLight: 0
+    - _RimShadowColor: 0
+    - _RimShadowCt: 1
+    - _RimShadowFeather: 0
+    - _RimShadowFeather0: 0.9
+    - _RimShadowFeather1: 0.9
+    - _RimShadowFeather2: 0.9
+    - _RimShadowFeather3: 0.9
+    - _RimShadowFeather4: 0.9
+    - _RimShadowFeather5: 0.9
+    - _RimShadowFeather6: 0.7
+    - _RimShadowFeather7: 0.9
+    - _RimShadowIntensity: 2.5
+    - _RimShadowWidth: 0
+    - _RimShadowWidth0: 1.6
+    - _RimShadowWidth1: 1.5
+    - _RimShadowWidth2: 1.8
+    - _RimShadowWidth3: 1.8
+    - _RimShadowWidth4: 1.8
+    - _RimShadowWidth5: 0
+    - _RimShadowWidth6: 0
+    - _RimShadowWidth7: 2
+    - _RimWidth: 0
+    - _RimWidth0: 0.3
+    - _RimWidth1: 0.3
+    - _RimWidth2: 0.3
+    - _RimWidth3: 0.3
+    - _RimWidth4: 0.3
+    - _RimWidth5: 0.3
+    - _RimWidth6: 0.3
+    - _RimWidth7: 0.3
+    - _SingleMaterialID: -1
+    - _SpecularColor: 0
+    - _SpecularIntensity: 0
+    - _SpecularIntensity0: 2
+    - _SpecularIntensity1: 2
+    - _SpecularIntensity2: 2
+    - _SpecularIntensity3: 1
+    - _SpecularIntensity4: 1
+    - _SpecularIntensity5: 1
+    - _SpecularIntensity6: 1
+    - _SpecularIntensity7: 1
+    - _SpecularRoughness: 0
+    - _SpecularRoughness0: 0.1
+    - _SpecularRoughness1: 0.02
+    - _SpecularRoughness2: 0.05
+    - _SpecularRoughness3: 0.02
+    - _SpecularRoughness4: 0.02
+    - _SpecularRoughness5: 0.02
+    - _SpecularRoughness6: 0.02
+    - _SpecularRoughness7: 0.02
+    - _SpecularShininess: 0
+    - _SpecularShininess0: 10
+    - _SpecularShininess1: 10
+    - _SpecularShininess2: 10
+    - _SpecularShininess3: 10
+    - _SpecularShininess4: 10
+    - _SpecularShininess5: 10
+    - _SpecularShininess6: 10
+    - _SpecularShininess7: 10
+    - _SrcBlendAlpha: 0
+    - _SrcBlendColor: 1
+    - _StockingsDarkWidth: 0.5
+    - _StockingsLightedIntensity: 0.25
+    - _StockingsLightedWidth: 1
+    - _StockingsPower: 1
+    - _StockingsRoughness: 1
+    - _mmBloomIntensity0: 0.2
+    - _mmBloomIntensity1: 0.2
+    - _mmBloomIntensity2: 0.2
+    - _mmBloomIntensity3: 0.1
+    - _mmBloomIntensity4: 0.4
+    - _mmBloomIntensity5: 0.2
+    - _mmBloomIntensity6: 0.02
+    - _mmBloomIntensity7: 0.02
+    m_Colors:
+    - _BackColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor0: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor1: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor2: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor3: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor4: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor5: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor6: {r: 1, g: 1, b: 1, a: 1}
+    - _BloomColor7: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Maps_ST: {r: 1, g: 1, b: 0, a: 0}
+    - _OutlineColor0: {r: 0.20790316, g: 0.19508722, b: 0.3018868, a: 1}
+    - _OutlineColor1: {r: 0.18867922, g: 0.070309706, b: 0.12085191, a: 1}
+    - _OutlineColor2: {r: 0.39607847, g: 0.2627451, b: 0.23529413, a: 1}
+    - _OutlineColor3: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor4: {r: 0.09411766, g: 0.09411766, b: 0.09411766, a: 1}
+    - _OutlineColor5: {r: 0.70980394, g: 0.9921569, b: 0.8470589, a: 1}
+    - _OutlineColor6: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor7: {r: 0, g: 0, b: 0, a: 1}
+    - _RimColor0: {r: 0.7972223, g: 0.7905393, b: 0.8018868, a: 1}
+    - _RimColor1: {r: 0.5660378, g: 0.54200786, b: 0.54919136, a: 1}
+    - _RimColor2: {r: 0.8962264, g: 0.787383, b: 0.6637148, a: 1}
+    - _RimColor3: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
+    - _RimColor4: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 1}
+    - _RimColor5: {r: 0.7058823, g: 0.7058823, b: 0.7058823, a: 1}
+    - _RimColor6: {r: 0.7216981, g: 1, b: 0.8941669, a: 1}
+    - _RimColor7: {r: 0.7264151, g: 0.5462661, b: 0.47628158, a: 1}
+    - _RimShadowColor0: {r: 0.71284264, g: 0.72822577, b: 0.7830189, a: 1}
+    - _RimShadowColor1: {r: 0.85322475, g: 0.82444817, b: 0.9150943, a: 1}
+    - _RimShadowColor2: {r: 0.7735849, g: 0.7001748, b: 0.6896582, a: 1}
+    - _RimShadowColor3: {r: 0.6, g: 0.6, b: 0.6, a: 1}
+    - _RimShadowColor4: {r: 0.627451, g: 0.627451, b: 0.627451, a: 1}
+    - _RimShadowColor5: {r: 1, g: 1, b: 1, a: 1}
+    - _RimShadowColor6: {r: 1, g: 1, b: 1, a: 1}
+    - _RimShadowColor7: {r: 0.7114068, g: 0.70073867, b: 0.8207547, a: 1}
+    - _RimShadowOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecularColor0: {r: 0.6431373, g: 0.6431373, b: 0.6431373, a: 1}
+    - _SpecularColor1: {r: 0.65882355, g: 0.65882355, b: 0.65882355, a: 1}
+    - _SpecularColor2: {r: 0.5568628, g: 0.5568628, b: 0.5568628, a: 1}
+    - _SpecularColor3: {r: 0.7725491, g: 0.7725491, b: 0.7725491, a: 1}
+    - _SpecularColor4: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecularColor5: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecularColor6: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecularColor7: {r: 0, g: 0, b: 0, a: 1}
+    - _StockingsColor: {r: 1, g: 1, b: 1, a: 1}
+    - _StockingsColorDark: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
