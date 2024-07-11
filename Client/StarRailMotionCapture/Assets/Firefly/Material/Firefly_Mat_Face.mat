@@ -15,7 +15,8 @@ Material:
   - _FACEMAPUV2_ON
   - _MODEL_GAME
   - _OUTLINENORMAL_TANGENT
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _RECEIVE_HAIR_SHADOW_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -27,29 +28,34 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _ExpressionMap:
-        m_Texture: {fileID: 2800000, guid: efdd655f2c48e9b40875bd947e63af1a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 58f1b51100e5888448027cd9295fabb2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FaceMap:
-        m_Texture: {fileID: 2800000, guid: 44bb97f47fb72f445b80ba9c022b63a5, type: 3}
+        m_Texture: {fileID: 2800000, guid: 41a3ca934ec3ce54d9341f2aa2d0228d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 317abfaa5e49b5b479726a8855165a6f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 46cc4e2d86351a64183dfb088e93f7a3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AlphaTest: 0
     - _AlphaTestThreshold: 0.5
+    - _BloomIntensityEyeAdditional: 0
     - _DitherAlpha: 1
     - _DstBlendAlpha: 0
-    - _EmissionIntensity: 0.6
+    - _EmissionIntensity: 0.4
     - _EmissionThreshold: 0.77
     - _ExCheekIntensity: 0
     - _ExShadowIntensity: 0
     - _ExShyIntensity: 0
+    - _EyeAlwaysLit: 0.2
+    - _EyeEmissionIntensity: 4.68
+    - _EyeEmissionThreshold: 0.39
     - _FaceMapUV2: 1
+    - _HairShadowDistance: 0.3
     - _MaxEyeHairDistance: 0.2
     - _Model: 0
     - _ModelScale: 1
@@ -57,8 +63,15 @@ Material:
     - _OutlineNormal: 0
     - _OutlineWidth: 1
     - _OutlineZOffset: 0
+    - _ReceiveHairShadow: 1
+    - _RimShadowCt: 1
+    - _RimShadowFeather0: 0.01
+    - _RimShadowIntensity: 0
+    - _RimShadowWidth0: 1
+    - _SelfShadowDepthBias: -0.01
+    - _SelfShadowNormalBias: 0
     - _SrcBlendAlpha: 0
-    - _mmBloomIntensity0: 0
+    - _mmBloomIntensity0: 0.02
     m_Colors:
     - _BloomColor0: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
@@ -67,6 +80,7 @@ Material:
     - _ExEyeColor: {r: 0.7602795, g: 0.7688457, b: 0.8018868, a: 1}
     - _ExShadowColor: {r: 0.031772878, g: 0.06594037, b: 0.39622638, a: 1}
     - _ExShyColor: {r: 1, g: 0.8066038, b: 0.8066038, a: 1}
+    - _EyeEmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EyeShadowColor: {r: 0.8881128, g: 0.8666667, b: 0.9137255, a: 1}
     - _MMDHeadBoneForward: {r: 0, g: 0, b: 1, a: 0}
     - _MMDHeadBoneRight: {r: 1, g: 0, b: 0, a: 0}
@@ -74,5 +88,7 @@ Material:
     - _Maps_ST: {r: 1, g: 1, b: 0, a: 0}
     - _NoseLineColor: {r: 0.6415094, g: 0.3479886, b: 0.3479886, a: 1}
     - _OutlineColor0: {r: 0.4716981, g: 0.3270737, b: 0.34470218, a: 1}
+    - _RimShadowColor0: {r: 1, g: 1, b: 1, a: 1}
+    - _RimShadowOffset: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowColor: {r: 0.990566, g: 0.90937984, b: 0.8924439, a: 1}
   m_BuildTextureStacks: []

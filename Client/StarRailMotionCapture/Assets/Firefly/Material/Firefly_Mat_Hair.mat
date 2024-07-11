@@ -26,19 +26,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _LightMap:
-        m_Texture: {fileID: 2800000, guid: e0a6f04e5ba2d4e4890d4445b923cb5a, type: 3}
+        m_Texture: {fileID: 2800000, guid: d88437e212a784041a15a184b9696c0d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d6f21f60a476b4141a0f757e8b40d326, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8f53e045c280d084a9288bad4a91b99f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RampMapCool:
-        m_Texture: {fileID: 2800000, guid: 8d36fe2787dd7154da2fb05c12191293, type: 3}
+        m_Texture: {fileID: 2800000, guid: a9dac5af99a4ea64cafd24f6f537f6a9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RampMapWarm:
-        m_Texture: {fileID: 2800000, guid: 0967443ed2c235747a24d145868f57a0, type: 3}
+        m_Texture: {fileID: 2800000, guid: cfa68c1bc9c7162408df489826b27bc5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -46,7 +46,7 @@ Material:
     - _AlphaTest: 0
     - _AlphaTestThreshold: 0.5
     - _BackFaceUV2: 0
-    - _Cull: 2
+    - _Cull: 0
     - _DitherAlpha: 1
     - _DstBlendAlpha: 0
     - _EmissionIntensity: 0
@@ -68,12 +68,14 @@ Material:
     - _RimShadowFeather0: 0.873
     - _RimShadowIntensity: 1
     - _RimShadowWidth0: 1
-    - _RimWidth0: 0.5
+    - _RimWidth0: 0.6
+    - _SelfShadowDepthBias: -0.01
+    - _SelfShadowNormalBias: 0
     - _SpecularIntensity0: 0.3
     - _SpecularRoughness0: 0
     - _SpecularShininess0: 3
     - _SrcBlendAlpha: 0
-    - _mmBloomIntensity0: 0.02
+    - _mmBloomIntensity0: 0.04
     m_Colors:
     - _BackColor: {r: 1, g: 1, b: 1, a: 1}
     - _BloomColor0: {r: 1, g: 1, b: 1, a: 1}

@@ -15,7 +15,8 @@ Material:
   - _BACKFACEUV2_ON
   - _MODEL_GAME
   - _OUTLINENORMAL_TANGENT
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _RECEIVE_SELF_SHADOW_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -27,19 +28,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _LightMap:
-        m_Texture: {fileID: 2800000, guid: dcc1ff8b4319a5449a87ae22d18ac15f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 15dc2cb7c5f84ac44bb8f60753a17e7d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d7bcd6f93e1ad2448a37ebca109954b3, type: 3}
+        m_Texture: {fileID: 2800000, guid: d8b8a9548391c164f8a027e63c8dc98f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RampMapCool:
-        m_Texture: {fileID: 2800000, guid: 4f9e1dd6e2fcdef44aeb32393d23603e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4fffb2bdddb2af4499a2c0362cf69c5a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RampMapWarm:
-        m_Texture: {fileID: 2800000, guid: cb09227179ef36a4c9ca48b18c375e93, type: 3}
+        m_Texture: {fileID: 2800000, guid: 33a57fe542cd250458a197402f53e5ab, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _StockingsMap:
@@ -52,8 +53,8 @@ Material:
     - _AlphaTestThreshold: 0.5
     - _BackFaceUV2: 1
     - _BloomColor: 0
-    - _BloomIntensity: 1
-    - _Cull: 2
+    - _BloomIntensity: 0
+    - _Cull: 0
     - _DitherAlpha: 1
     - _DstBlendAlpha: 0
     - _DstBlendColor: 0
@@ -65,7 +66,10 @@ Material:
     - _OutlineNormal: 0
     - _OutlineWidth: 1
     - _OutlineZOffset: 0
+    - _PerObjShadowCasterId: -1
+    - _PerObjectShadowIndex: -1
     - _RampCoolWarmLerpFactor: 1
+    - _ReceiveSelfShadow: 1
     - _RimColor: 0
     - _RimDark: 0
     - _RimDark0: 0.5
@@ -80,12 +84,12 @@ Material:
     - _RimEdgeSoftness0: 0.05
     - _RimEdgeSoftness1: 0.05
     - _RimEdgeSoftness2: 0.05
-    - _RimEdgeSoftness3: 1
+    - _RimEdgeSoftness3: 3
     - _RimEdgeSoftness4: 0.05
     - _RimEdgeSoftness5: 0.05
     - _RimEdgeSoftness6: 0.05
     - _RimEdgeSoftness7: 0.05
-    - _RimIntensity: 0.35
+    - _RimIntensity: 0.5
     - _RimIntensityAdditionalLight: 0.5
     - _RimIntensityBackFace: 0
     - _RimIntensityBackFaceAdditionalLight: 0
@@ -114,11 +118,13 @@ Material:
     - _RimWidth0: 0.3
     - _RimWidth1: 0.3
     - _RimWidth2: 0.3
-    - _RimWidth3: 0.6
+    - _RimWidth3: 0.8
     - _RimWidth4: 0.3
     - _RimWidth5: 0.3
     - _RimWidth6: 0.3
     - _RimWidth7: 0.3
+    - _SelfShadowDepthBias: -0.01
+    - _SelfShadowNormalBias: 0
     - _SingleMaterialID: -1
     - _SpecularColor: 0
     - _SpecularIntensity: 0
